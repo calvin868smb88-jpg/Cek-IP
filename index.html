@@ -11,11 +11,11 @@
             margin: 0; 
             padding: 20px; 
             
-            background-image: url('https://i.postimg.cc/g2RjrBN2/image.png'); /* MENGGUNAKAN NAMA FILE ASLI ANDA */
-            background-size: cover;             /* Gambar menutupi seluruh halaman */
-            background-position: center center; /* Pusatkan gambar */
-            background-repeat: no-repeat;       /* Jangan ulangi gambar */
-            background-attachment: fixed;       /* Gambar tetap di tempat saat discroll */
+            background-image: url('https://i.postimg.cc/g2RjrBN2/image.png');
+            background-size: cover; 
+            background-position: center center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
         }
         /* -------------------------------------------------- */
         
@@ -24,12 +24,12 @@
         
         /* Gaya untuk konten agar menonjol di atas gambar background */
         #content-box {
-            max-width: 1000px; /* Batasi lebar agar tidak terlalu lebar */
-            margin: 0 auto; /* Pusatkan content-box di tengah halaman */
-            background-color: rgba(255, 255, 255, 0.95); /* Latar belakang PUTIH SEMI-TRANSPARAN yang lebih solid agar teks jelas */
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background-color: rgba(255, 255, 255, 0.95); 
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Bayangan lebih kuat */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
         }
 
         h1 { color: #222; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
@@ -39,11 +39,37 @@
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #e0e6ed; }
         .high-count { background-color: #ffcccc; font-weight: bold; }
+
+        /* Style tambahan untuk Marquee */
+        #running-text {
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        /* --- CSS EFEK BERKILAU --- */
+        .glowing-text {
+            font-size: 1.5em; 
+            font-weight: bold;
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 1), 
+                0 0 10px rgba(255, 255, 255, 0.8), 
+                0 0 15px currentColor, 
+                0 0 20px currentColor; 
+        }
+        /* ---------------------------------- */
+
     </style>
 </head>
 <body>
     
     <div id="content-box">
+        <div id="running-text">
+            <marquee behavior="scroll" direction="left" scrollamount="10">
+                <span class="glowing-text">
+                    <span style="color: #FF0000;">C</span>  <span style="color: #FF00FF;">E</span>  <span style="color: #00FFFF;">K</span>  <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span>  <span style="color: #4B0082;">E</span>  <span style="color: #FF0000;">T</span>  <span style="color: #FF00FF;">I</span>  <span style="color: #00FFFF;">A</span>  <span style="color: #00FF00;">P</span>  <span style="color: #0000FF;">&nbsp;1</span>  <span style="color: #4B0082;">&nbsp;J</span>  <span style="color: #FF0000;">A</span>  <span style="color: #FF00FF;">M</span>  <span style="color: #00FFFF;">&nbsp;S</span>  <span style="color: #00FF00;">E</span>  <span style="color: #0000FF;">K</span>  <span style="color: #4B0082;">A</span>  <span style="color: #FF0000;">L</span>  <span style="color: #FF00FF;">I</span>  </span>
+            </marquee>
+        </div>
         <h1>🔍 Dashboard Analisis IP Login</h1>
 
         <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
