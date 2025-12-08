@@ -3,95 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Analisis IP Login - Naga Background</title>
+    <title>Dashboard Multi-Fungsi</title>
     <style>
-        /* --- CSS MODIFIKASI UNTUK BACKGROUND GAMBAR NAGA --- */
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 20px; 
-            
+        /* ==================== A. CSS DASAR & BACKGROUND ==================== */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Background Gambar Naga dari Cek IP (dipertahankan) */
             background-image: url('https://i.postimg.cc/g2RjrBN2/image.png');
-            background-size: cover; 
-            background-position: center center; 
-            background-repeat: no-repeat; 
-            background-attachment: fixed; 
-        }
-        /* -------------------------------------------------- */
-        
-        textarea { width: 100%; height: 200px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
-        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
-        
-        /* Gaya untuk konten agar menonjol di atas gambar background */
-        #content-box {
-            max-width: 1000px; 
-            margin: 0 auto; 
-            background-color: rgba(255, 255, 255, 0.95); 
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex; /* Menggunakan Flexbox untuk tata letak Sidebar dan Main Content */
+            min-height: 100vh;
+            color: #444;
         }
 
+        /* ==================== B. CSS SIDEBAR/MENU ==================== */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(34, 34, 34, 0.95); /* Sidebar gelap */
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            position: fixed; /* Membuat sidebar tetap di tempatnya */
+            height: 100%;
+            color: white;
+            z-index: 100;
+        }
+
+        #sidebar h2 {
+            text-align: center;
+            color: #FFD700;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #555;
+            color: #FFD700;
+        }
+
+        /* ==================== C. CSS KONTEN UTAMA (Container) ==================== */
+        #main-container {
+            flex-grow: 1;
+            margin-left: 250px; /* Jarak agar konten tidak tertutup sidebar */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content-panel {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ==================== D. CSS CEK IP ==================== */
         h1 { color: #222; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        p { color: #444; } 
-        
+        textarea#logInput { width: 100%; height: 200px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        button#btn-cek-ip { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #e0e6ed; }
         .high-count { background-color: #ffcccc; font-weight: bold; }
-
-        /* Style tambahan untuk Marquee */
-        #running-text {
-            padding: 10px 0;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ccc;
-        }
-
-        /* --- CSS EFEK BERKILAU --- */
+        #running-text { padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid #ccc; }
         .glowing-text {
-            font-size: 1.5em; 
-            font-weight: bold;
-            text-shadow: 
-                0 0 5px rgba(255, 255, 255, 1), 
-                0 0 10px rgba(255, 255, 255, 0.8), 
-                0 0 15px currentColor, 
-                0 0 20px currentColor; 
+            font-size: 1.5em; font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px currentColor, 0 0 20px currentColor;
         }
-        /* ---------------------------------- */
 
+        /* ==================== E. CSS PREDIKSI BOLA ==================== */
+        #content-prediksi-bola {
+            background: rgba(0, 0, 0, 0.85); 
+            color: white;
+        }
+        #content-prediksi-bola h2 {
+            color: #FFD700;
+            text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700;
+            margin-bottom: 20px;
+        }
+        #content-prediksi-bola textarea {
+            width: calc(100% - 20px); height: 150px; margin-bottom: 10px; border-radius: 5px; padding: 10px; resize: vertical;
+            background: #222; color: #eee; border: 1px solid #555;
+        }
+        #content-prediksi-bola button {
+            background: #FFD700; color: black; border: none; padding: 10px 25px; margin: 5px; cursor: pointer;
+            font-weight: bold; border-radius: 5px; transition: background 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 5px #FFD700;
+        }
+        #content-prediksi-bola button:hover { background: #FFE066; box-shadow: 0 0 10px #FFD700; }
+        #htmlOutput { height: 300px; background: #111; color: #0f0; font-family: 'Consolas', 'Monaco', monospace; border: 1px solid #333; }
+        .match-block {
+            background: #1a1a1a; color: white; border-radius: 5px; margin: 25px auto; padding: 0; width: 100%; max-width: 700px;
+            overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+        .match-block .league-title {
+            background: #000000; color: #f6ff00; padding: 10px 15px; margin: 0; text-align: center;
+            font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: 0 0 6px #FFFF00;
+        }
+        .match-block thead th {
+            background: #fffb00; color: #000; font-weight: bold; padding: 8px 12px; border: 1px solid #444; text-align: center;
+        }
+        .match-block tbody td {
+            background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center;
+        }
     </style>
 </head>
 <body>
-    
-    <div id="content-box">
-        <div id="running-text">
-            <marquee behavior="scroll" direction="left" scrollamount="10">
-                <span class="glowing-text">
-                    <span style="color: #FF0000;">C</span>  <span style="color: #FF00FF;">E</span>  <span style="color: #00FFFF;">K</span>  <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span>  <span style="color: #4B0082;">E</span>  <span style="color: #FF0000;">T</span>  <span style="color: #FF00FF;">I</span>  <span style="color: #00FFFF;">A</span>  <span style="color: #00FF00;">P</span>  <span style="color: #0000FF;">&nbsp;1</span>  <span style="color: #4B0082;">&nbsp;J</span>  <span style="color: #FF0000;">A</span>  <span style="color: #FF00FF;">M</span>  <span style="color: #00FFFF;">&nbsp;S</span>  <span style="color: #00FF00;">E</span>  <span style="color: #0000FF;">K</span>  <span style="color: #4B0082;">A</span>  <span style="color: #FF0000;">L</span>  <span style="color: #FF00FF;">I</span>  </span>
-            </marquee>
+
+    <div id="sidebar">
+        <h2>Menu</h2>
+        <a href="#" class="menu-item active" data-content="cek-ip" id="menu-cek-ip">🔍 Cek IP</a>
+        <a href="#" class="menu-item" data-content="prediksi-bola" id="menu-prediksi-bola">⚽ PREDIKSI BOLA</a>
+    </div>
+
+    <div id="main-container">
+
+        <div id="content-cek-ip" class="content-panel">
+            <div id="running-text">
+                <marquee behavior="scroll" direction="left" scrollamount="10">
+                    <span class="glowing-text">
+                        <span style="color: #FF0000;">C</span> <span style="color: #FF00FF;">E</span> <span style="color: #00FFFF;">K</span> <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span> <span style="color: #4B0082;">E</span> <span style="color: #FF0000;">T</span> <span style="color: #FF00FF;">I</span> <span style="color: #00FFFF;">A</span> <span style="color: #00FF00;">P</span> <span style="color: #0000FF;">&nbsp;1</span> <span style="color: #4B0082;">&nbsp;J</span> <span style="color: #FF0000;">A</span> <span style="color: #FF00FF;">M</span> <span style="color: #00FFFF;">&nbsp;S</span> <span style="color: #00FF00;">E</span> <span style="color: #0000FF;">K</span> <span style="color: #4B0082;">A</span> <span style="color: #FF0000;">L</span> <span style="color: #FF00FF;">I</span> </span>
+                </marquee>
+            </div>
+            <h1>🔍 Dashboard Analisis IP Login</h1>
+            <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
+
+            <textarea id="logInput" placeholder="Tempelkan data Anda di sini..."></textarea>
+
+            <button onclick="processData()" id="btn-cek-ip">Klik Disini</button>
+
+            <div id="results">
+                <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+            </div>
         </div>
-        <h1>🔍 Dashboard Analisis IP Login</h1>
 
-        <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
+        <div id="content-prediksi-bola" class="content-panel" style="display: none;">
+            <h2>PREDIKSI BOLA</h2>
+            <textarea id="input" placeholder="Masukkan pertandingan di sini..."></textarea><br>
+            <button onclick="generateTable()">GENERATE TABEL</button>
+            <button onclick="copyHTML()">COPY SEMUA HTML</button>
 
-        <textarea id="logInput" placeholder="Tempelkan data Anda di sini..."></textarea>
-        
-        <button onclick="processData()">Klik Disini</button>
+            <div id="output"></div>
 
-        <div id="results">
-            <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+            <h3 class="hasil-html">📋 Hasil HTML Disini:</h3>
+            <textarea id="htmlOutput" readonly></textarea>
         </div>
+
     </div>
 
     <script>
-        // --- FITUR RESET INPUT SAAT REFRESH ---
+        // --- 1. SCRIPT PENGATUR MENU (CONTENT SWITCHING) ---
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Hapus kelas 'active' dari semua menu
+                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                
+                // Tambahkan kelas 'active' ke menu yang diklik
+                this.classList.add('active');
+
+                // Sembunyikan semua panel konten
+                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+
+                // Tampilkan panel konten yang sesuai
+                const targetId = 'content-' + this.getAttribute('data-content');
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.style.display = 'block';
+                }
+            });
+        });
+
+        // --- 2. SCRIPT RESET INPUT KETIKA REFRESH ---
         window.onload = function() {
+            // Reset input CEK IP
             document.getElementById('logInput').value = '';
             document.getElementById('results').innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
+            
+            // Reset input PREDIKSI BOLA
+            document.getElementById('input').value = ''; 
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('htmlOutput').value = '';
         };
-        // ------------------------------------------
-        
-        const THRESHOLD = 3; 
+
+        // --- 3. SCRIPT CEK IP (Fungsionalitas) ---
+
+        const THRESHOLD = 3;
 
         function processData() {
             const rawData = document.getElementById('logInput').value;
@@ -111,12 +225,11 @@
             const parsedData = [];
 
             lines.forEach(line => {
-                // Menggunakan Regular Expression untuk memisahkan kolom berdasarkan satu atau lebih spasi/tab.
-                const parts = line.trim().split(/\s{2,}|\t/); 
-                
+                const parts = line.trim().split(/\s{2,}|\t/);
+
                 if (parts.length >= 3) {
-                    const userId = parts[0].trim(); // Kolom 1
-                    const ipLogin = parts[2].trim(); // Kolom 3
+                    const userId = parts[0].trim();
+                    const ipLogin = parts[2].trim();
 
                     if (userId && ipLogin) {
                         parsedData.push({ userId, ipLogin });
@@ -127,7 +240,7 @@
         }
 
         function analyzeLoginData(data) {
-            const ipCounts = {}; 
+            const ipCounts = {};
             data.forEach(log => {
                 const ip = log.ipLogin;
                 ipCounts[ip] = (ipCounts[ip] || 0) + 1;
@@ -144,7 +257,7 @@
 
         function renderResults(results) {
             const resultsDiv = document.getElementById('results');
-            
+
             if (results.length === 0) {
                 resultsDiv.innerHTML = "<p>Tidak ada data valid yang ditemukan setelah diproses. Harap cek kembali format data yang ditempelkan.</p>";
                 return;
@@ -170,7 +283,81 @@
             html += '</tbody></table>';
             resultsDiv.innerHTML = html;
         }
-    </script>
 
+
+        // --- 4. SCRIPT PREDIKSI BOLA (Fungsionalitas) ---
+        function generateTable() {
+            const input = document.getElementById('input').value.trim();
+            const lines = input.split('\n').filter(l => l.trim() !== '');
+
+            let outputHtmlContent = '';
+            let leagueName = '';
+            let leagueData = {};
+
+            const matchRegex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2})\s+WIB\s+(.+?)\s+vs\s+(.+?)\s+(\d+\s*[:\-]\s*\d+)$/i;
+
+            lines.forEach(line => {
+                const match = line.match(matchRegex);
+
+                if (match) {
+                    const date = match[1];
+                    const time = match[2];
+                    const teamA = match[3].trim();
+                    const teamB = match[4].trim();
+                    const score = match[5].trim();
+
+                    if (!leagueData[leagueName]) leagueData[leagueName] = [];
+                    leagueData[leagueName].push([
+                        `${date} ${time} WIB`,
+                        `${teamA} vs ${teamB}`,
+                        score
+                    ]);
+                } else {
+                    leagueName = line.trim().toUpperCase();
+                    if (!leagueData[leagueName]) leagueData[leagueName] = [];
+                }
+            });
+
+            for (const leagueName in leagueData) {
+                if (leagueData[leagueName].length > 0) {
+                    outputHtmlContent += `
+                        <div class="match-block">
+                          <h3 class="league-title">${leagueName}</h3>
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Tanggal & Waktu</th>
+                                <th>Pertandingan</th>
+                                <th>Skor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    leagueData[leagueName].forEach(match => {
+                        outputHtmlContent += `
+                            <tr>
+                              <td>${match[0]}</td>
+                              <td>${match[1]}</td>
+                              <td>${match[2]}</td>
+                            </tr>
+                        `;
+                    });
+
+                    outputHtmlContent += `</tbody></table></div>`;
+                }
+            }
+
+            document.getElementById('output').innerHTML = outputHtmlContent;
+            document.getElementById('htmlOutput').value = outputHtmlContent;
+        }
+
+        function copyHTML() {
+            const html = document.getElementById('htmlOutput');
+            html.select();
+            document.execCommand('copy');
+            alert('Semua HTML berhasil disalin!');
+        }
+    </script>
 </body>
 </html>
