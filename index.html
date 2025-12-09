@@ -330,10 +330,16 @@
         
         function saveHistory(status) {
             const now = new Date();
-            // Format tanggal dan jam lokal sesuai permintaan
-            const date = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }); 
-            const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); 
             
+            // Format Tanggal: Contoh '10 Desember 2025'
+            const date = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }); 
+            
+            // Format Jam: Contoh '01:24:01'
+            let time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }); 
+            
+            // Mengganti pemisah jam dari titik menjadi titik dua (untuk mengatasi masalah browser yang muncul di gambar)
+            time = time.replace(/\./g, ':');
+
             const newEntry = {
                 date: date,
                 time: time,
@@ -353,6 +359,7 @@
             try {
                 localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
             } catch (e) {
+                // Peringatan ini muncul karena masalah akses file://, perlu dijalankan di localhost
                 alert("Peringatan: Gagal menyimpan riwayat. Ruang penyimpanan browser mungkin penuh.");
                 console.error("Gagal menyimpan riwayat:", e);
             }
