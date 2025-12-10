@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Multi-Fungsi</title>
     <style>
+        /* [CSS SAMA SEPERTI SEBELUMNYA] */
         /* ==================== A. CSS DASAR & BACKGROUND ==================== */
         body {
             font-family: Arial, sans-serif;
@@ -192,6 +193,14 @@
         #edit-form-container { border: 1px solid #ccc; padding: 20px; border-radius: 5px; margin-top: 20px; background-color: #f9f9f9; }
         #edit-form-container input[type="text"], #edit-form-container input[type="password"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
         #edit-form-container button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        /* ==================== H. CSS TAMBAHAN IMPORT/EXPORT HISTORY ==================== */
+        .history-tools { margin-bottom: 20px; display: flex; gap: 10px; }
+        .history-tools label { font-weight: bold; padding-top: 8px; }
+        .history-tools button { padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+        .history-tools button:hover { background-color: #0056b3; }
+        #importFile { padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
+
     </style>
 </head>
 <body>
@@ -244,8 +253,15 @@
 
         <div id="content-history-cek-ip" class="content-panel" style="display: none;">
             <h2>📜 Riwayat Pengecekan IP</h2>
-            <button onclick="clearHistory()">Hapus Semua Riwayat</button>
-            <p style="font-style: italic; color: #555;">(Data riwayat ini hanya mencatat Tanggal, Jam, dan Status, dan tersimpan di browser Anda.)</p>
+            <p style="font-style: italic; color: #555;">(Data riwayat ini tersimpan lokal. Gunakan Import/Export untuk berbagi dengan Staff lain.)</p>
+            
+            <div class="history-tools">
+                <button onclick="clearHistory()">Hapus Semua Riwayat</button>
+                <button onclick="exportHistory()">Export Riwayat (.json)</button>
+                <input type="file" id="importFile" accept=".json">
+                <button onclick="importHistory()">Import Riwayat</button>
+            </div>
+            
             <div id="history-results">
                 <p>Belum ada riwayat pengecekan IP yang tersimpan.</p>
             </div>
@@ -264,6 +280,17 @@
         <div id="content-users" class="content-panel" style="display: none;">
             <h2>👨‍💻 Manajamen Data Staff</h2>
             <p style="color: red; font-weight: bold;">⚠️ HANYA ADMIN MASTER YANG BISA MELIHAT & MENGEDIT DATA INI.</p>
+            
+            <h3>Tambah/Edit Pengguna:</h3>
+            <div id="add-user-form" style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; margin-bottom: 20px; background-color: #f9f9f9;">
+                <label for="newUserUsername">Username Staff Baru:</label>
+                <input type="text" id="newUserUsername" placeholder="Username Staff" style="width: calc(50% - 10px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="newUserPassword">Password:</label>
+                <input type="password" id="newUserPassword" placeholder="Password Baru" style="width: calc(50% - 10px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <button onclick="addNewStaff()" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Tambah Staff Baru</button>
+                <p id="addUserMessage" style="color: green; margin-top: 10px;"></p>
+            </div>
+
 
             <h3>Daftar Pengguna:</h3>
             <div id="user-list">
@@ -301,7 +328,6 @@
         // ==================== A. FUNGSI UTAMA (Reset & Init) ====================
 
         function resetDashboardInputs() {
-            // Reset input dashboard (Cek IP, Prediksi Bola, dll)
             const logInput = document.getElementById('logInput');
             if (logInput) logInput.value = '';
             const resultsDiv = document.getElementById('results');
@@ -314,7 +340,6 @@
             const htmlOutput = document.getElementById('htmlOutput');
             if (htmlOutput) htmlOutput.value = '';
             
-            // Reset input Login/Register
             const registerUsername = document.getElementById('registerUsername');
             const registerPassword = document.getElementById('registerPassword');
             const loginUsername = document.getElementById('loginUsername');
@@ -420,8 +445,15 @@
             const users = getUsers();
             const user = users[username];
 
+            // PENTING: Pengecekan format user, jika hanya string (seperti error sebelumnya) ubah ke format objek
+            if (user && typeof user === 'string') {
+                user = { password: user, role: Object.keys(users).length === 1 ? 'master' : 'staf' };
+                users[username] = user;
+                localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users)); 
+            }
+
+
             if (user && user.password === password) {
-                // Simpan status login dan PERAN (ROLE) pengguna saat ini
                 localStorage.setItem(LOGGED_IN_KEY, 'true');
                 localStorage.setItem('currentRole', user.role); 
 
@@ -441,7 +473,6 @@
             document.getElementById('sidebar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
             
-            // Sembunyikan semua menu yang diatur berdasarkan peran
             document.getElementById('menu-history-cek-ip').style.display = 'none';
             document.getElementById('menu-users').style.display = 'none';
             
@@ -472,13 +503,13 @@
                     if (menuHistory) menuHistory.style.display = 'block';
                     if (menuUsers) menuUsers.style.display = 'block';
                 } else if (currentRole === 'staf') {
-                    // STAFF: Sembunyikan History dan Manajemen User
-                    if (menuHistory) menuHistory.style.display = 'none';
-                    if (menuUsers) menuUsers.style.display = 'none';
+                    // STAFF: Bisa lihat Cek IP, History, dan Prediksi
+                    if (menuHistory) menuHistory.style.display = 'block'; // AKTIF UNTUK STAFF
+                    if (menuUsers) menuUsers.style.display = 'none'; // Sembunyikan Manajamen User
                     
-                    // Jika Staff sedang berada di konten terlarang (ex: Users), pindahkan ke Cek IP
+                    // Jika Staff sedang berada di konten Manajamen User, pindahkan ke Cek IP
                     const activeContent = document.querySelector('.content-panel:not([style*="display: none"])');
-                    if (activeContent && (activeContent.id === 'content-history-cek-ip' || activeContent.id === 'content-users')) {
+                    if (activeContent && activeContent.id === 'content-users') {
                          document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
                          document.getElementById('content-cek-ip').style.display = 'block';
                          document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
@@ -486,7 +517,6 @@
                     }
                 }
 
-                // Pastikan konten default (Cek IP) tampil jika baru login
                 if (!document.querySelector('.content-panel:not([style*="display: none"])')) {
                     document.getElementById('content-cek-ip').style.display = 'block';
                     document.getElementById('menu-cek-ip').classList.add('active');
@@ -522,12 +552,9 @@
                 const targetPanel = document.getElementById(targetId);
                 const currentRole = localStorage.getItem('currentRole');
                 
-                // Cek Izin Akses
-                const requiredRole = ['cek-ip', 'prediksi-bola'].includes(this.getAttribute('data-content')) ? 'staf' : 'master';
-
-                if (currentRole === 'staf' && requiredRole === 'master') {
+                // Hanya Manajamen User yang membutuhkan role Master
+                if (this.getAttribute('data-content') === 'users' && currentRole !== 'master') {
                     alert('Akses Ditolak! Menu ini hanya untuk Admin Master.');
-                    // Kembali ke Cek IP jika akses ditolak
                     document.getElementById('content-cek-ip').style.display = 'block';
                     document.getElementById('menu-cek-ip').classList.add('active');
                     return;
@@ -631,7 +658,7 @@
             resultsDiv.innerHTML = html;
         }
         
-        // ==================== E. FUNGSI RIWAYAT IP ====================
+        // ==================== E. FUNGSI RIWAYAT IP (Termasuk Import/Export) ====================
 
         function getHistory() {
             try {
@@ -703,6 +730,62 @@
             }
         }
         
+        // FUNGSI BARU: Export History (agar bisa dibagikan)
+        function exportHistory() {
+            const history = getHistory();
+            const dataStr = JSON.stringify(history, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ip_check_history_' + new Date().toISOString().slice(0, 10) + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Riwayat berhasil diexport sebagai file JSON.');
+        }
+
+        // FUNGSI BARU: Import History (untuk memuat riwayat yang dibagikan)
+        function importHistory() {
+            const fileInput = document.getElementById('importFile');
+            if (!fileInput.files.length) {
+                alert('Pilih file .json riwayat untuk diimpor.');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                try {
+                    const importedHistory = JSON.parse(event.target.result);
+                    
+                    if (!Array.isArray(importedHistory) || importedHistory.some(item => !item.date || !item.status)) {
+                        throw new Error("Format file JSON tidak valid untuk Riwayat IP.");
+                    }
+                    
+                    if (confirm("Riwayat baru akan menimpa riwayat yang ada. Lanjutkan?")) {
+                        // Batasi riwayat yang diimpor
+                        const MAX_HISTORY = 50;
+                        if (importedHistory.length > MAX_HISTORY) {
+                            importedHistory.length = MAX_HISTORY;
+                        }
+                        
+                        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(importedHistory));
+                        loadHistory();
+                        alert('Riwayat berhasil diimpor!');
+                    }
+                } catch (error) {
+                    alert('Gagal mengimpor riwayat: ' + error.message);
+                    console.error("IMPORT ERROR:", error);
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+
         // ==================== F. FUNGSI PREDIKSI BOLA ====================
 
         function generateTable() {
@@ -777,6 +860,42 @@
         }
 
         // ==================== G. FUNGSI MANAJEMEN USER ====================
+        
+        function addNewStaff() {
+            const username = document.getElementById('newUserUsername').value.trim();
+            const password = document.getElementById('newUserPassword').value.trim();
+            const messageDiv = document.getElementById('addUserMessage');
+            
+            messageDiv.style.color = 'red'; 
+            messageDiv.textContent = '';
+
+            if (username.length < 4 || password.length < 6) {
+                messageDiv.textContent = 'Username minimal 4 karakter, Password minimal 6 karakter.';
+                return;
+            }
+
+            let users = getUsers();
+            if (users[username]) {
+                messageDiv.textContent = 'Username sudah terdaftar.';
+                return;
+            }
+
+            users[username] = { password: password, role: 'staf' };
+
+            try {
+                localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+                messageDiv.style.color = 'green';
+                messageDiv.textContent = `Staff ${username} berhasil ditambahkan!`;
+                
+                document.getElementById('newUserUsername').value = '';
+                document.getElementById('newUserPassword').value = '';
+                loadUserList(); 
+            } catch (e) {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = `❌ Gagal menyimpan data: ${e.name}. Coba lagi.`;
+                console.error("LOCAL STORAGE ERROR:", e);
+            }
+        }
 
         function loadUserList() {
             const users = getUsers();
@@ -788,11 +907,15 @@
 
             for (const username in users) {
                 const user = users[username];
-                const rowClass = user.role === 'master' ? 'class="master-role"' : '';
+                
+                // PENTING: Cek jika format user masih string (dari error sebelumnya), pastikan itu Master
+                let role = (typeof user === 'string') ? 'master' : user.role;
+                
+                const rowClass = role === 'master' ? 'class="master-role"' : '';
                 
                 html += `<tr ${rowClass}>`;
                 html += `<td>${username}</td>`;
-                html += `<td>${user.role.toUpperCase()}</td>`;
+                html += `<td>${role.toUpperCase()}</td>`;
                 html += `<td><button class="edit-user-btn" onclick="openEditForm('${username}')">Edit</button></td>`;
                 html += '</tr>';
             }
@@ -811,11 +934,15 @@
                 alert('Pengguna tidak ditemukan.');
                 return;
             }
+            
+            // PENTING: Handle kasus user format string yang seharusnya Master
+            let role = (typeof user === 'string') ? 'master' : user.role;
+
 
             editingUsername = username; 
             
             document.getElementById('editing-username-display').textContent = username;
-            document.getElementById('editRole').value = user.role;
+            document.getElementById('editRole').value = role;
             document.getElementById('editPassword').value = ''; 
             document.getElementById('editMessage').textContent = '';
             
@@ -838,6 +965,11 @@
                  return;
             }
 
+            // Inisialisasi/koreksi format jika masih string
+            if (typeof userToEdit === 'string') {
+                 userToEdit = { password: userToEdit, role: 'master' };
+            }
+            
             // 1. Update Password (jika diisi)
             if (newPassword.length > 0) {
                 if (newPassword.length < 6) {
@@ -863,6 +995,11 @@
                     loadUserList(); 
                     document.getElementById('edit-form-container').style.display = 'none';
                     editingUsername = null;
+                    
+                    // Jika Master mengedit dirinya sendiri atau role-nya, perlu refresh status
+                    if (editingUsername === localStorage.getItem('currentUsername')) {
+                        checkLoginStatus(); 
+                    }
                 }, 1000);
 
             } catch (e) {
