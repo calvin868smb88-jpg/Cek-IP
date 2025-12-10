@@ -218,7 +218,7 @@
         <img src="https://i.postimg.cc/8PMP5890/logo.png" alt="Logo Mancing Duit" class="logo">
 
         <a href="#" class="menu-item active" data-content="cek-ip" id="menu-cek-ip">🔍 Cek IP</a>
-        <a href="#" class="menu-item" data-content="history-cek-ip" id="menu-history-cek-ip">📜 HISTORY CEK IP</a>
+        <a href="#" class="menu-item" data-content="history-cek-ip" id="menu-history-cek-ip" style="display: none;">📜 HISTORY CEK IP</a>
         <a href="#" class="menu-item" data-content="prediksi-bola" id="menu-prediksi-bola">⚽ PREDIKSI BOLA</a>
         
         <a href="#" class="menu-item" data-content="users" id="menu-users" style="display: none;">👨‍💻 MANAJEMEN USER</a>
@@ -301,13 +301,12 @@
         // ==================== A. FUNGSI UTAMA (Reset & Init) ====================
 
         function resetDashboardInputs() {
-            // Reset input CEK IP
+            // Reset input dashboard (Cek IP, Prediksi Bola, dll)
             const logInput = document.getElementById('logInput');
             if (logInput) logInput.value = '';
             const resultsDiv = document.getElementById('results');
             if (resultsDiv) resultsDiv.innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
 
-            // Reset input PREDIKSI BOLA
             const inputPrediksi = document.getElementById('input');
             if (inputPrediksi) inputPrediksi.value = '';
             const outputPrediksi = document.getElementById('output');
@@ -335,19 +334,6 @@
         window.onload = function() {
             resetDashboardInputs(); 
             checkLoginStatus(); 
-            
-            // Pastikan Cek IP aktif secara default jika sudah login
-            if (localStorage.getItem(LOGGED_IN_KEY) === 'true') {
-                 // Sembunyikan semua panel konten
-                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
-                // Tampilkan panel Cek IP
-                const cekIpPanel = document.getElementById('content-cek-ip');
-                if (cekIpPanel) cekIpPanel.style.display = 'block';
-                 // Aktifkan menu Cek IP
-                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-                const menuCekIp = document.getElementById('menu-cek-ip');
-                if(menuCekIp) menuCekIp.classList.add('active');
-            }
         };
 
         // ==================== B. AUTHENTICATION (Login/Register) ====================
@@ -398,6 +384,7 @@
                 return;
             }
 
+            // PENGATURAN ROLE: Pengguna pertama yang mendaftar menjadi 'master'
             const role = Object.keys(users).length === 0 ? 'master' : 'staf';
 
             users[username] = { password: password, role: role };
@@ -434,11 +421,12 @@
             const user = users[username];
 
             if (user && user.password === password) {
+                // Simpan status login dan PERAN (ROLE) pengguna saat ini
                 localStorage.setItem(LOGGED_IN_KEY, 'true');
                 localStorage.setItem('currentRole', user.role); 
 
                 messageDiv.style.color = 'green';
-                messageDiv.textContent = `Login Berhasil! Memuat Dashboard...`;
+                messageDiv.textContent = `Login Berhasil sebagai ${user.role.toUpperCase()}! Memuat Dashboard...`;
                 setTimeout(checkLoginStatus, 500);
             } else {
                 messageDiv.textContent = 'Username atau Password salah.';
@@ -453,8 +441,9 @@
             document.getElementById('sidebar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
             
-            const menuUsers = document.getElementById('menu-users');
-            if(menuUsers) menuUsers.style.display = 'none';
+            // Sembunyikan semua menu yang diatur berdasarkan peran
+            document.getElementById('menu-history-cek-ip').style.display = 'none';
+            document.getElementById('menu-users').style.display = 'none';
             
             resetDashboardInputs(); 
             alert("Anda telah berhasil Logout.");
@@ -468,6 +457,8 @@
             const authContainer = document.getElementById('auth-container');
             const sidebar = document.getElementById('sidebar');
             const mainContainer = document.getElementById('main-container');
+            
+            const menuHistory = document.getElementById('menu-history-cek-ip');
             const menuUsers = document.getElementById('menu-users');
 
             if (isLoggedIn) {
@@ -475,21 +466,37 @@
                 sidebar.style.display = 'flex';
                 mainContainer.style.display = 'block';
 
+                // LOGIKA PEMBATASAN ROLE
                 if (currentRole === 'master') {
+                    // MASTER: Tampilkan semua menu
+                    if (menuHistory) menuHistory.style.display = 'block';
                     if (menuUsers) menuUsers.style.display = 'block';
-                } else {
+                } else if (currentRole === 'staf') {
+                    // STAFF: Sembunyikan History dan Manajemen User
+                    if (menuHistory) menuHistory.style.display = 'none';
                     if (menuUsers) menuUsers.style.display = 'none';
+                    
+                    // Jika Staff sedang berada di konten terlarang (ex: Users), pindahkan ke Cek IP
+                    const activeContent = document.querySelector('.content-panel:not([style*="display: none"])');
+                    if (activeContent && (activeContent.id === 'content-history-cek-ip' || activeContent.id === 'content-users')) {
+                         document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+                         document.getElementById('content-cek-ip').style.display = 'block';
+                         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                         document.getElementById('menu-cek-ip').classList.add('active');
+                    }
                 }
-                
-                // Pastikan konten default (Cek IP) tampil
-                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
-                const cekIpPanel = document.getElementById('content-cek-ip');
-                if (cekIpPanel) cekIpPanel.style.display = 'block';
+
+                // Pastikan konten default (Cek IP) tampil jika baru login
+                if (!document.querySelector('.content-panel:not([style*="display: none"])')) {
+                    document.getElementById('content-cek-ip').style.display = 'block';
+                    document.getElementById('menu-cek-ip').classList.add('active');
+                }
                 
             } else {
                 authContainer.style.display = 'flex';
                 sidebar.style.display = 'none';
                 mainContainer.style.display = 'none';
+                if (menuHistory) menuHistory.style.display = 'none';
                 if (menuUsers) menuUsers.style.display = 'none';
                 
                 const users = getUsers();
@@ -513,6 +520,19 @@
 
                 const targetId = 'content-' + this.getAttribute('data-content');
                 const targetPanel = document.getElementById(targetId);
+                const currentRole = localStorage.getItem('currentRole');
+                
+                // Cek Izin Akses
+                const requiredRole = ['cek-ip', 'prediksi-bola'].includes(this.getAttribute('data-content')) ? 'staf' : 'master';
+
+                if (currentRole === 'staf' && requiredRole === 'master') {
+                    alert('Akses Ditolak! Menu ini hanya untuk Admin Master.');
+                    // Kembali ke Cek IP jika akses ditolak
+                    document.getElementById('content-cek-ip').style.display = 'block';
+                    document.getElementById('menu-cek-ip').classList.add('active');
+                    return;
+                }
+
                 if (targetPanel) {
                     targetPanel.style.display = 'block';
                 }
@@ -522,7 +542,7 @@
                 }
                 
                 if (this.getAttribute('data-content') === 'users') {
-                    if (localStorage.getItem('currentRole') === 'master') {
+                    if (currentRole === 'master') {
                         loadUserList();
                     }
                 }
@@ -530,7 +550,7 @@
         });
 
         // ==================== D. FUNGSI CEK IP ====================
-
+        
         function processData() {
             const rawData = document.getElementById('logInput').value;
 
@@ -556,7 +576,6 @@
             const parsedData = [];
             lines.forEach(line => {
                 const parts = line.trim().split(/\s{2,}|\t/);
-                // Kita asumsikan formatnya User ID - Sesuatu - IP Address
                 if (parts.length >= 3) {
                     const userId = parts[0].trim();
                     const ipLogin = parts[2].trim();
@@ -564,7 +583,6 @@
                         parsedData.push({ userId, ipLogin });
                     }
                 } else if (parts.length >= 2 && parts[1].match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/)) {
-                    // Coba deteksi jika hanya ada 2 kolom dan kolom kedua adalah IP
                     const userId = parts[0].trim();
                     const ipLogin = parts[1].trim();
                     if (userId && ipLogin) {
