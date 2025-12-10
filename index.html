@@ -16,28 +16,28 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            display: flex; /* Menggunakan Flexbox untuk tata letak Sidebar dan Main Content */
+            display: flex;
             min-height: 100vh;
             color: #444;
         }
         /* ==================== B. CSS SIDEBAR/MENU ==================== */
         #sidebar {
             width: 250px;
-            background-color: rgba(34, 34, 34, 0.95); /* Sidebar gelap */
+            background-color: rgba(34, 34, 34, 0.95);
             padding: 20px 0;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            position: fixed; /* Membuat sidebar tetap di tempatnya */
+            position: fixed;
             height: 100%;
             color: white;
             z-index: 100;
         }
         /* CSS BARU UNTUK LOGO */
         #sidebar .logo {
-            width: 80%; /* Ukuran logo 80% dari lebar sidebar */
+            width: 80%;
             height: auto;
-            margin: 0 auto 15px auto; /* Margin atas dan bawah, auto di kiri kanan untuk tengah */
+            margin: 0 auto 15px auto;
             display: block;
         }
         #sidebar h2 {
@@ -62,7 +62,7 @@
         /* ==================== C. CSS KONTEN UTAMA (Container) ==================== */
         #main-container {
             flex-grow: 1;
-            margin-left: 250px; /* Jarak agar konten tidak tertutup sidebar */
+            margin-left: 250px;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -121,10 +121,10 @@
         .match-block tbody td {
             background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center;
         }
-        /* ==================== F. CSS HISTORY CEK IP (BARU) ==================== */
+        /* ==================== F. CSS HISTORY CEK IP (BARU/MODIFIED) ==================== */
         #content-history-cek-ip h2 { color: #007bff; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
         #content-history-cek-ip button { 
-            background-color: #dc3545; /* Merah */
+            background-color: #dc3545;
             color: white; 
             border: none; 
             padding: 10px 15px; 
@@ -139,8 +139,30 @@
         #content-history-cek-ip table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         #content-history-cek-ip th, #content-history-cek-ip td { border: 1px solid #ccc; padding: 10px; text-align: left; }
         #content-history-cek-ip th { background-color: #f2f2f2; color: #333; font-weight: bold; }
-        .status-cek { background-color: #ffcccc; font-weight: bold; } /* Merah muda untuk status CEK IP */
-        .status-normal { background-color: #e8f5e9; } /* Hijau muda untuk status NORMAL */
+        .status-cek { background-color: #ffcccc; font-weight: bold; }
+        .status-normal { background-color: #e8f5e9; }
+        
+        /* CSS Tambahan untuk detail history */
+        .history-detail-toggle {
+            cursor: pointer;
+            color: #007bff;
+            font-weight: bold;
+            user-select: none;
+        }
+        .history-detail-table {
+            width: 95%;
+            margin: 10px auto 10px 10px;
+            border: 1px dashed #aaa;
+            display: none; /* Sembunyikan secara default */
+            font-size: 0.9em;
+        }
+        .history-detail-table th, .history-detail-table td {
+            padding: 5px;
+            border: 1px solid #eee;
+        }
+        .history-detail-table .high-count-detail {
+            background-color: #f8d7da; /* Warna merah muda lebih lembut */
+        }
     </style>
 </head>
 <body>
@@ -171,7 +193,7 @@
         <div id="content-history-cek-ip" class="content-panel" style="display: none;">
             <h2>📜 Riwayat Pengecekan IP</h2>
             <button onclick="clearHistory()">Hapus Semua Riwayat</button>
-            <p style="font-style: italic; color: #555;">(Data riwayat ini hanya mencatat Tanggal, Jam, dan Status, dan tersimpan di browser Anda.)</p>
+            <p style="font-style: italic; color: #555;">(Data riwayat ini menyimpan detail dan tersimpan **Lokal** di browser Anda. Tidak dapat dilihat oleh pengguna lain.)</p>
             <div id="history-results">
                 <p>Belum ada riwayat pengecekan IP yang tersimpan.</p>
             </div>
@@ -189,7 +211,7 @@
     </div>
     <script>
         // Key untuk menyimpan riwayat di localStorage
-        const HISTORY_STORAGE_KEY = 'ipCheckHistory';
+        const HISTORY_STORAGE_KEY = 'ipCheckHistoryV2'; // Diubah untuk menghindari konflik
         
         // --- 1. SCRIPT PENGATUR MENU (CONTENT SWITCHING) ---
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -250,28 +272,27 @@
                 ? `❌ Ditemukan ${highCountIPs.length} IP di atas batas (${THRESHOLD} User ID)`
                 : '✅ Normal';
             
-            // Panggil fungsi untuk menyimpan riwayat (Hanya TANGGAL, JAM, STATUS)
-            saveHistory(status); 
+            // Panggil fungsi BARU untuk menyimpan riwayat LENGKAP
+            saveHistory(status, analysisResults); 
         }
         
         function parseRawData(rawData) {
             const lines = rawData.trim().split('\n');
             const parsedData = [];
+            const ipRegex = /\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/;
+
             lines.forEach(line => {
                 const parts = line.trim().split(/\s{2,}|\t/);
-                // Kita asumsikan formatnya User ID - Sesuatu - IP Address
-                if (parts.length >= 3) {
-                    const userId = parts[0].trim();
-                    const ipLogin = parts[2].trim();
+                
+                // Mencoba menemukan IP di mana saja, lalu ambil token pertama sebagai User ID
+                const ipMatch = line.match(ipRegex);
+                if (ipMatch) {
+                    const ipLogin = ipMatch[0];
+                    // Anggap User ID adalah kata/token pertama sebelum spasi/tab
+                    const userId = line.trim().split(/\s+|\t/)[0];
+
                     if (userId && ipLogin) {
-                        parsedData.push({ userId, ipLogin });
-                    }
-                } else if (parts.length >= 2 && parts[1].includes('.')) {
-                    // Coba deteksi jika hanya ada 2 kolom dan kolom kedua adalah IP
-                    const userId = parts[0].trim();
-                    const ipLogin = parts[1].trim();
-                     if (userId && ipLogin) {
-                        parsedData.push({ userId, ipLogin });
+                        parsedData.push({ userId: userId.trim(), ipLogin });
                     }
                 }
             });
@@ -316,7 +337,7 @@
             resultsDiv.innerHTML = html;
         }
         
-        // --- 4. SCRIPT RIWAYAT (Fungsionalitas History - HANYA TANGGAL/JAM/STATUS) ---
+        // --- 4. SCRIPT RIWAYAT (Fungsionalitas History - MODIFIED) ---
         
         function getHistory() {
             try {
@@ -328,23 +349,23 @@
             }
         }
         
-        function saveHistory(status) {
+        function saveHistory(status, analysisResults) {
             const now = new Date();
-            // Format tanggal dan jam lokal sesuai permintaan
             const date = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }); 
             const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); 
             
             const newEntry = {
+                id: Date.now(), // ID unik untuk detail table
                 date: date,
                 time: time,
-                status: status
+                status: status,
+                // SIMPAN HASIL ANALISIS LENGKAP DI SINI
+                details: analysisResults
             };
             
             const history = getHistory();
-            // Tambahkan entri baru di awal (paling baru di atas)
             history.unshift(newEntry);
             
-            // Batasi jumlah entri
             const MAX_HISTORY = 50; 
             if (history.length > MAX_HISTORY) {
                 history.length = MAX_HISTORY;
@@ -358,6 +379,13 @@
             }
         }
         
+        function toggleDetails(id) {
+            const detailElement = document.getElementById('details-' + id);
+            if (detailElement) {
+                detailElement.style.display = detailElement.style.display === 'table' ? 'none' : 'table';
+            }
+        }
+
         function loadHistory() {
             const history = getHistory();
             const historyDiv = document.getElementById('history-results');
@@ -368,25 +396,49 @@
             }
             
             let html = '<table>';
-            html += '<thead><tr><th>Tanggal</th><th>Jam</th><th>Status Pengecekan</th></tr></thead>';
+            html += '<thead><tr><th>Tanggal</th><th>Jam</th><th>Status Pengecekan</th><th>Detail</th></tr></thead>';
             html += '<tbody>';
             
             history.forEach(entry => {
-                // Tentukan kelas berdasarkan status
                 const rowClass = entry.status.startsWith('❌') ? 'class="status-cek"' : 'class="status-normal"';
                 html += `<tr ${rowClass}>`;
                 html += `<td>${entry.date}</td>`;
                 html += `<td>${entry.time}</td>`;
                 html += `<td>${entry.status}</td>`;
+                html += `<td><span class="history-detail-toggle" onclick="toggleDetails(${entry.id})">Lihat Detail (${entry.details.length} IP Unik)</span></td>`;
                 html += '</tr>';
+                
+                // Tambahkan baris tersembunyi untuk detail
+                html += `<tr><td colspan="4" style="padding: 0;">`;
+                html += buildDetailTable(entry.id, entry.details);
+                html += `</td></tr>`;
             });
             
             html += '</tbody></table>';
             historyDiv.innerHTML = html;
         }
+
+        function buildDetailTable(id, details) {
+            let detailHtml = `<table id="details-${id}" class="history-detail-table">`;
+            detailHtml += '<thead><tr><th>IP Address</th><th>User ID Count</th><th>Status</th></tr></thead>';
+            detailHtml += '<tbody>';
+            
+            details.forEach(detail => {
+                const isHigh = detail.userCount >= THRESHOLD;
+                const detailRowClass = isHigh ? 'class="high-count-detail"' : '';
+                detailHtml += `<tr ${detailRowClass}>`;
+                detailHtml += `<td>${detail.ipAddress}</td>`;
+                detailHtml += `<td>${detail.userCount}</td>`;
+                detailHtml += `<td>${isHigh ? '❌ CEK IP INI' : '✅ NORMAL'}</td>`;
+                detailHtml += '</tr>';
+            });
+            
+            detailHtml += '</tbody></table>';
+            return detailHtml;
+        }
         
         function clearHistory() {
-             if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengecekan IP?")) {
+            if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengecekan IP?")) {
                 localStorage.removeItem(HISTORY_STORAGE_KEY);
                 loadHistory(); // Muat ulang tampilan setelah dihapus
                 alert("Riwayat berhasil dihapus!");
