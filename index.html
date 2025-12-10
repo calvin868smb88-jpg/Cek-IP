@@ -122,7 +122,7 @@
             background-color: #555;
             color: #FFD700;
         }
-        /* BARU: CSS Logout Button di Sidebar */
+        /* CSS Logout Button di Sidebar */
         #logout-btn {
             margin-top: auto;
             padding: 15px 20px;
@@ -152,46 +152,46 @@
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
-        /* ==================== G. CSS USER MANAGEMENT (BARU) ==================== */
+        
+        /* ==================== D. CSS CEK IP & HISTORY ==================== */
+        h1 { color: #222; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        textarea#logInput { width: 100%; height: 200px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        button#btn-cek-ip { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #e0e6ed; }
+        .high-count { background-color: #ffcccc; font-weight: bold; }
+        #running-text { padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid #ccc; }
+        .glowing-text {
+            font-size: 1.5em; font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px currentColor, 0 0 20px currentColor;
+        }
+        .status-cek { background-color: #ffcccc; font-weight: bold; } 
+        .status-normal { background-color: #e8f5e9; } 
+
+        /* ==================== E. CSS PREDIKSI BOLA ==================== */
+        #content-prediksi-bola { background: rgba(0, 0, 0, 0.85); color: white; }
+        #content-prediksi-bola h2 { color: #FFD700; text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700; margin-bottom: 20px; }
+        #content-prediksi-bola textarea { width: calc(100% - 20px); height: 150px; margin-bottom: 10px; border-radius: 5px; padding: 10px; resize: vertical; background: #222; color: #eee; border: 1px solid #555; }
+        #content-prediksi-bola button { background: #FFD700; color: black; border: none; padding: 10px 25px; margin: 5px; cursor: pointer; font-weight: bold; border-radius: 5px; transition: background 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 5px #FFD700; }
+        #content-prediksi-bola button:hover { background: #FFE066; box-shadow: 0 0 10px #FFD700; }
+        #htmlOutput { height: 300px; background: #111; color: #0f0; font-family: 'Consolas', 'Monaco', monospace; border: 1px solid #333; }
+        .match-block { background: #1a1a1a; color: white; border-radius: 5px; margin: 25px auto; padding: 0; width: 100%; max-width: 700px; overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.7); }
+        .match-block .league-title { background: #000000; color: #f6ff00; padding: 10px 15px; margin: 0; text-align: center; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: 0 0 6px #FFFF00; }
+        .match-block thead th { background: #fffb00; color: #000; font-weight: bold; padding: 8px 12px; border: 1px solid #444; text-align: center; }
+        .match-block tbody td { background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center; }
+        
+        /* ==================== G. CSS USER MANAGEMENT ==================== */
         #content-users h2 { color: #8b0000; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
         #user-list table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         #user-list th, #user-list td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         #user-list th { background-color: #f2f2f2; color: #333; font-weight: bold; }
         .master-role { background-color: #ffc; font-weight: bold; }
-        .edit-user-btn {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+        .edit-user-btn { padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; transition: background-color 0.3s; }
         .edit-user-btn:hover { background-color: #0056b3; }
-        #edit-form-container {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 20px;
-            background-color: #f9f9f9;
-        }
-        #edit-form-container input[type="text"], #edit-form-container input[type="password"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #edit-form-container button {
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        /* (Sisa CSS dari CEK IP, PREDIKSI BOLA, HISTORY IP diabaikan di sini untuk fokus pada perubahan,
-           tetapi dalam file HTML lengkap, mereka tetap ada) */
+        #edit-form-container { border: 1px solid #ccc; padding: 20px; border-radius: 5px; margin-top: 20px; background-color: #f9f9f9; }
+        #edit-form-container input[type="text"], #edit-form-container input[type="password"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        #edit-form-container button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -226,9 +226,40 @@
         <div id="logout-btn" onclick="logoutUser()">KELUAR (LOGOUT)</div>
     </div>
     <div id="main-container" style="display: none;">
-        <div id="content-cek-ip" class="content-panel">...Konten Cek IP...</div>
-        <div id="content-history-cek-ip" class="content-panel" style="display: none;">...Konten History...</div>
-        <div id="content-prediksi-bola" class="content-panel" style="display: none;">...Konten Prediksi Bola...</div>
+        <div id="content-cek-ip" class="content-panel" style="display: block;">
+            <div id="running-text">
+                <marquee behavior="scroll" direction="left" scrollamount="10">
+                    <span class="glowing-text">
+                        <span style="color: #FF0000;">C</span> <span style="color: #FF00FF;">E</span> <span style="color: #00FFFF;">K</span> <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span> <span style="color: #4B0082;">E</span> <span style="color: #FF0000;">T</span> <span style="color: #FF00FF;">I</span> <span style="color: #00FFFF;">A</span> <span style="color: #00FF00;">P</span> <span style="color: #0000FF;">&nbsp;1</span> <span style="color: #4B0082;">&nbsp;J</span> <span style="color: #FF0000;">A</span> <span style="color: #FF00FF;">M</span> <span style="color: #00FFFF;">&nbsp;S</span> <span style="color: #00FF00;">E</span> <span style="color: #0000FF;">K</span> <span style="color: #4B0082;">A</span> <span style="color: #FF0000;">L</span> <span style="color: #FF00FF;">I</span> </span>
+                </marquee>
+            </div>
+            <h1>🔍 Dashboard Analisis IP Login</h1>
+            <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
+            <textarea id="logInput" placeholder="Tempelkan data Anda di sini..."></textarea>
+            <button onclick="processData()" id="btn-cek-ip">Klik Disini</button>
+            <div id="results">
+                <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+            </div>
+        </div>
+
+        <div id="content-history-cek-ip" class="content-panel" style="display: none;">
+            <h2>📜 Riwayat Pengecekan IP</h2>
+            <button onclick="clearHistory()">Hapus Semua Riwayat</button>
+            <p style="font-style: italic; color: #555;">(Data riwayat ini hanya mencatat Tanggal, Jam, dan Status, dan tersimpan di browser Anda.)</p>
+            <div id="history-results">
+                <p>Belum ada riwayat pengecekan IP yang tersimpan.</p>
+            </div>
+        </div>
+
+        <div id="content-prediksi-bola" class="content-panel" style="display: none;">
+            <h2>PREDIKSI BOLA</h2>
+            <textarea id="input" placeholder="Masukkan pertandingan di sini..."></textarea><br>
+            <button onclick="generateTable()">GENERATE TABEL</button>
+            <button onclick="copyHTML()">COPY SEMUA HTML</button>
+            <div id="output"></div>
+            <h3 class="hasil-html">📋 Hasil HTML Disini:</h3>
+            <textarea id="htmlOutput" readonly></textarea>
+        </div>
 
         <div id="content-users" class="content-panel" style="display: none;">
             <h2>👨‍💻 Manajamen Data Staff</h2>
@@ -255,18 +286,36 @@
                 <p id="editMessage" style="color: green; margin-top: 10px;"></p>
             </div>
         </div>
-        </div>
+    </div>
     <script>
         // Key untuk menyimpan data user
         const USER_STORAGE_KEY = 'dashboardUsers';
         // Key untuk status login
         const LOGGED_IN_KEY = 'isLoggedIn';
+        // Key untuk menyimpan riwayat di localStorage
+        const HISTORY_STORAGE_KEY = 'ipCheckHistory';
         // Variabel global untuk menyimpan username yang sedang di-edit
         let editingUsername = null; 
+        const THRESHOLD = 3;
 
-        // Fungsi untuk mereset semua input di dashboard
+        // ==================== A. FUNGSI UTAMA (Reset & Init) ====================
+
         function resetDashboardInputs() {
-            // ... (Fungsi ini tetap sama, mereset semua input) ...
+            // Reset input CEK IP
+            const logInput = document.getElementById('logInput');
+            if (logInput) logInput.value = '';
+            const resultsDiv = document.getElementById('results');
+            if (resultsDiv) resultsDiv.innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
+
+            // Reset input PREDIKSI BOLA
+            const inputPrediksi = document.getElementById('input');
+            if (inputPrediksi) inputPrediksi.value = '';
+            const outputPrediksi = document.getElementById('output');
+            if (outputPrediksi) outputPrediksi.innerHTML = '';
+            const htmlOutput = document.getElementById('htmlOutput');
+            if (htmlOutput) htmlOutput.value = '';
+            
+            // Reset input Login/Register
             const registerUsername = document.getElementById('registerUsername');
             const registerPassword = document.getElementById('registerPassword');
             const loginUsername = document.getElementById('loginUsername');
@@ -283,25 +332,45 @@
             if(logMsg) logMsg.textContent = '';
         }
 
-        // ==================== SCRIPT AUTHENTICATION (Login/Register) ====================
+        window.onload = function() {
+            resetDashboardInputs(); 
+            checkLoginStatus(); 
+            
+            // Pastikan Cek IP aktif secara default jika sudah login
+            if (localStorage.getItem(LOGGED_IN_KEY) === 'true') {
+                 // Sembunyikan semua panel konten
+                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+                // Tampilkan panel Cek IP
+                const cekIpPanel = document.getElementById('content-cek-ip');
+                if (cekIpPanel) cekIpPanel.style.display = 'block';
+                 // Aktifkan menu Cek IP
+                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                const menuCekIp = document.getElementById('menu-cek-ip');
+                if(menuCekIp) menuCekIp.classList.add('active');
+            }
+        };
+
+        // ==================== B. AUTHENTICATION (Login/Register) ====================
 
         function showLogin() {
-            document.getElementById('register-box').style.display = 'none';
-            document.getElementById('login-box').style.display = 'block';
+            const regBox = document.getElementById('register-box');
+            const logBox = document.getElementById('login-box');
+            if (regBox) regBox.style.display = 'none';
+            if (logBox) logBox.style.display = 'block';
             resetDashboardInputs(); 
         }
 
         function showRegister() {
-            document.getElementById('login-box').style.display = 'none';
-            document.getElementById('register-box').style.display = 'block';
+            const logBox = document.getElementById('login-box');
+            const regBox = document.getElementById('register-box');
+            if (logBox) logBox.style.display = 'none';
+            if (regBox) regBox.style.display = 'block';
             resetDashboardInputs(); 
         }
 
-        // FUNGSI INI DIUBAH: Sekarang mengembalikan objek {username: {password, role}, ...}
         function getUsers() {
             try {
                 const usersJson = localStorage.getItem(USER_STORAGE_KEY);
-                // Jika tidak ada data, kembalikan objek kosong
                 return usersJson ? JSON.parse(usersJson) : {};
             } catch (e) {
                 console.error("Gagal memuat pengguna:", e);
@@ -329,16 +398,14 @@
                 return;
             }
 
-            // Tentukan Peran (Role): Pengguna pertama yang mendaftar menjadi 'master'
             const role = Object.keys(users).length === 0 ? 'master' : 'staf';
 
-            // Simpan sebagai objek: {password: '...', role: '...'}
             users[username] = { password: password, role: role };
 
             try {
                 localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
                 messageDiv.style.color = 'green';
-                messageDiv.textContent = 'Registrasi Berhasil! Anda adalah ' + (role === 'master' ? 'Admin Master' : 'Staf') + '. Silakan Login.';
+                messageDiv.textContent = 'Registrasi Berhasil! Silakan Login.';
                 
                 document.getElementById('registerUsername').value = '';
                 document.getElementById('registerPassword').value = '';
@@ -366,15 +433,12 @@
             const users = getUsers();
             const user = users[username];
 
-            // Cek pengguna ada dan password cocok
             if (user && user.password === password) {
-                // Login Berhasil
-                // Simpan status login dan PERAN (ROLE) pengguna
                 localStorage.setItem(LOGGED_IN_KEY, 'true');
                 localStorage.setItem('currentRole', user.role); 
 
                 messageDiv.style.color = 'green';
-                messageDiv.textContent = `Login Berhasil sebagai ${user.role.toUpperCase()}! Memuat Dashboard...`;
+                messageDiv.textContent = `Login Berhasil! Memuat Dashboard...`;
                 setTimeout(checkLoginStatus, 500);
             } else {
                 messageDiv.textContent = 'Username atau Password salah.';
@@ -383,12 +447,14 @@
 
         function logoutUser() {
             localStorage.removeItem(LOGGED_IN_KEY); 
-            localStorage.removeItem('currentRole'); // Hapus peran saat logout
+            localStorage.removeItem('currentRole'); 
             
             document.getElementById('auth-container').style.display = 'flex';
             document.getElementById('sidebar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
-            document.getElementById('menu-users').style.display = 'none'; // Pastikan menu user hilang
+            
+            const menuUsers = document.getElementById('menu-users');
+            if(menuUsers) menuUsers.style.display = 'none';
             
             resetDashboardInputs(); 
             alert("Anda telah berhasil Logout.");
@@ -397,7 +463,7 @@
 
         function checkLoginStatus() {
             const isLoggedIn = localStorage.getItem(LOGGED_IN_KEY) === 'true';
-            const currentRole = localStorage.getItem('currentRole'); // Ambil peran
+            const currentRole = localStorage.getItem('currentRole'); 
             
             const authContainer = document.getElementById('auth-container');
             const sidebar = document.getElementById('sidebar');
@@ -409,20 +475,22 @@
                 sidebar.style.display = 'flex';
                 mainContainer.style.display = 'block';
 
-                // LOGIKA BARU: Tampilkan Menu User hanya jika Admin Master
                 if (currentRole === 'master') {
-                    menuUsers.style.display = 'block';
+                    if (menuUsers) menuUsers.style.display = 'block';
                 } else {
-                    menuUsers.style.display = 'none';
+                    if (menuUsers) menuUsers.style.display = 'none';
                 }
-
-                document.getElementById('logInput').value = '';
-                document.getElementById('input').value = '';
+                
+                // Pastikan konten default (Cek IP) tampil
+                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+                const cekIpPanel = document.getElementById('content-cek-ip');
+                if (cekIpPanel) cekIpPanel.style.display = 'block';
+                
             } else {
                 authContainer.style.display = 'flex';
                 sidebar.style.display = 'none';
                 mainContainer.style.display = 'none';
-                menuUsers.style.display = 'none';
+                if (menuUsers) menuUsers.style.display = 'none';
                 
                 const users = getUsers();
                 if (Object.keys(users).length === 0) {
@@ -432,10 +500,9 @@
                 }
             }
         }
-        // ==================== END SCRIPT AUTHENTICATION ====================
 
+        // ==================== C. MANAJEMEN MENU (CONTENT SWITCHING) ====================
 
-        // --- 1. SCRIPT PENGATUR MENU (CONTENT SWITCHING) ---
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -450,9 +517,11 @@
                     targetPanel.style.display = 'block';
                 }
 
-                // PANGGIL FUNGSI KHUSUS UNTUK MENU USERS
+                if (this.getAttribute('data-content') === 'history-cek-ip') {
+                    loadHistory();
+                }
+                
                 if (this.getAttribute('data-content') === 'users') {
-                    // Hanya Master yang bisa memuat daftar pengguna
                     if (localStorage.getItem('currentRole') === 'master') {
                         loadUserList();
                     }
@@ -460,17 +529,236 @@
             });
         });
 
-        // --- 2. SCRIPT RESET INPUT KETIKA REFRESH ---
-        window.onload = function() {
-            resetDashboardInputs(); 
-            checkLoginStatus(); 
-            
-            // Atur tampilan awal ke Cek IP
-            document.getElementById('content-cek-ip').style.display = 'block';
-            document.getElementById('menu-cek-ip').classList.add('active');
-        };
+        // ==================== D. FUNGSI CEK IP ====================
 
-        // ==================== BARU: SCRIPT MANAJEMEN USER ====================
+        function processData() {
+            const rawData = document.getElementById('logInput').value;
+
+            if (!rawData.trim()) {
+                document.getElementById('results').innerHTML = "<p>⚠️ Harap tempelkan data terlebih dahulu.</p>";
+                return;
+            }
+
+            const logData = parseRawData(rawData);
+            const analysisResults = analyzeLoginData(logData);
+            renderResults(analysisResults);
+
+            const highCountIPs = analysisResults.filter(item => item.userCount >= THRESHOLD);
+            const status = highCountIPs.length > 0
+                ? `❌ Ditemukan ${highCountIPs.length} IP di atas batas (${THRESHOLD} User ID)`
+                : '✅ Normal';
+
+            saveHistory(status);
+        }
+
+        function parseRawData(rawData) {
+            const lines = rawData.trim().split('\n');
+            const parsedData = [];
+            lines.forEach(line => {
+                const parts = line.trim().split(/\s{2,}|\t/);
+                // Kita asumsikan formatnya User ID - Sesuatu - IP Address
+                if (parts.length >= 3) {
+                    const userId = parts[0].trim();
+                    const ipLogin = parts[2].trim();
+                    if (userId && ipLogin && ipLogin.match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/)) {
+                        parsedData.push({ userId, ipLogin });
+                    }
+                } else if (parts.length >= 2 && parts[1].match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/)) {
+                    // Coba deteksi jika hanya ada 2 kolom dan kolom kedua adalah IP
+                    const userId = parts[0].trim();
+                    const ipLogin = parts[1].trim();
+                    if (userId && ipLogin) {
+                        parsedData.push({ userId, ipLogin });
+                    }
+                }
+            });
+            return parsedData;
+        }
+
+        function analyzeLoginData(data) {
+            const ipCounts = {};
+            data.forEach(log => {
+                const ip = log.ipLogin;
+                ipCounts[ip] = (ipCounts[ip] || 0) + 1;
+            });
+            const resultsArray = Object.keys(ipCounts).map(ip => ({
+                ipAddress: ip,
+                userCount: ipCounts[ip]
+            }));
+            resultsArray.sort((a, b) => b.userCount - a.userCount);
+            return resultsArray;
+        }
+
+        function renderResults(results) {
+            const resultsDiv = document.getElementById('results');
+            if (results.length === 0) {
+                resultsDiv.innerHTML = "<p>Tidak ada data valid yang ditemukan setelah diproses. Harap cek kembali format data yang ditempelkan.</p>";
+                return;
+            }
+            let html = `<h2>Hasil Analisis: ${results.length} IP Unik</h2>`;
+            html += `<p>Data diurutkan dari IP dengan User ID terbanyak. Status "CEK IP INI" jika hitungan >= ${THRESHOLD}.</p>`;
+            html += '<table>';
+            html += '<thead><tr><th>IP Address</th><th>Total User ID Unik</th><th>Status</th></tr></thead>';
+            html += '<tbody>';
+            results.forEach(item => {
+                const isHigh = item.userCount >= THRESHOLD;
+                const rowClass = isHigh ? 'class="high-count"' : '';
+                html += `<tr ${rowClass}>`;
+                html += `<td>${item.ipAddress}</td>`;
+                html += `<td>${item.userCount}</td>`;
+                html += `<td>${isHigh ? '❌ CEK IP INI' : '✅ NORMAL'}</td>`;
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            resultsDiv.innerHTML = html;
+        }
+        
+        // ==================== E. FUNGSI RIWAYAT IP ====================
+
+        function getHistory() {
+            try {
+                const historyJson = localStorage.getItem(HISTORY_STORAGE_KEY);
+                return historyJson ? JSON.parse(historyJson) : [];
+            } catch (e) {
+                console.error("Gagal memuat riwayat dari localStorage:", e);
+                return [];
+            }
+        }
+
+        function saveHistory(status) {
+            const now = new Date();
+            const date = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const newEntry = {
+                date: date,
+                time: time,
+                status: status
+            };
+
+            const history = getHistory();
+            history.unshift(newEntry);
+
+            const MAX_HISTORY = 50;
+            if (history.length > MAX_HISTORY) {
+                history.length = MAX_HISTORY;
+            }
+
+            try {
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
+            } catch (e) {
+                console.error("Gagal menyimpan riwayat:", e);
+            }
+        }
+
+        function loadHistory() {
+            const history = getHistory();
+            const historyDiv = document.getElementById('history-results');
+
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<p>Belum ada riwayat pengecekan IP yang tersimpan.</p>';
+                return;
+            }
+
+            let html = '<table>';
+            html += '<thead><tr><th>Tanggal</th><th>Jam</th><th>Status Pengecekan</th></tr></thead>';
+            html += '<tbody>';
+
+            history.forEach(entry => {
+                const rowClass = entry.status.startsWith('❌') ? 'class="status-cek"' : 'class="status-normal"';
+                html += `<tr ${rowClass}>`;
+                html += `<td>${entry.date}</td>`;
+                html += `<td>${entry.time}</td>`;
+                html += `<td>${entry.status}</td>`;
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            historyDiv.innerHTML = html;
+        }
+
+        function clearHistory() {
+             if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengecekan IP?")) {
+                localStorage.removeItem(HISTORY_STORAGE_KEY);
+                loadHistory(); 
+                alert("Riwayat berhasil dihapus!");
+            }
+        }
+        
+        // ==================== F. FUNGSI PREDIKSI BOLA ====================
+
+        function generateTable() {
+            const input = document.getElementById('input').value.trim();
+            const lines = input.split('\n').filter(l => l.trim() !== '');
+            let outputHtmlContent = '';
+            let leagueName = 'PREDIKSI TANPA JUDUL';
+            let leagueData = {};
+            const matchRegex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2})\s+WIB\s+(.+?)\s+vs\s+(.+?)\s+([0-9\s:/-]+)$/i;
+
+            lines.forEach(line => {
+                const match = line.match(matchRegex);
+                if (match) {
+                    const date = match[1];
+                    const time = match[2];
+                    const teamA = match[3].trim();
+                    const teamB = match[4].trim();
+                    const score = match[5].trim().replace(/\s*:\s*/g, ' - ');
+
+                    if (!leagueData[leagueName]) leagueData[leagueName] = [];
+                    leagueData[leagueName].push([
+                        `${date} ${time} WIB`,
+                        `${teamA} vs ${teamB}`,
+                        score
+                    ]);
+                } else {
+                    const tempLeagueName = line.trim().toUpperCase();
+                    if (tempLeagueName !== '') {
+                        leagueName = tempLeagueName;
+                        if (!leagueData[leagueName]) leagueData[leagueName] = [];
+                    }
+                }
+            });
+
+            for (const name in leagueData) {
+                if (leagueData[name].length > 0) {
+                    outputHtmlContent += `
+                        <div class="match-block">
+                          <h3 class="league-title">${name}</h3>
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Tanggal & Waktu</th>
+                                <th>Pertandingan</th>
+                                <th>Skor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    leagueData[name].forEach(match => {
+                        outputHtmlContent += `
+                            <tr>
+                              <td>${match[0]}</td>
+                              <td>${match[1]}</td>
+                              <td>${match[2]}</td>
+                            </tr>
+                        `;
+                    });
+                    outputHtmlContent += `</tbody></table></div>`;
+                }
+            }
+
+            document.getElementById('output').innerHTML = outputHtmlContent;
+            document.getElementById('htmlOutput').value = outputHtmlContent;
+        }
+
+        function copyHTML() {
+            const html = document.getElementById('htmlOutput');
+            html.select();
+            document.execCommand('copy');
+            alert('Semua HTML berhasil disalin!');
+        }
+
+        // ==================== G. FUNGSI MANAJEMEN USER ====================
 
         function loadUserList() {
             const users = getUsers();
@@ -480,7 +768,6 @@
             html += '<thead><tr><th>Username</th><th>Peran (Role)</th><th>Aksi</th></tr></thead>';
             html += '<tbody>';
 
-            // Iterasi melalui pengguna
             for (const username in users) {
                 const user = users[username];
                 const rowClass = user.role === 'master' ? 'class="master-role"' : '';
@@ -495,7 +782,6 @@
             html += '</tbody></table>';
             userListDiv.innerHTML = html;
             
-            // Sembunyikan form edit saat list dimuat
             document.getElementById('edit-form-container').style.display = 'none';
         }
 
@@ -508,11 +794,11 @@
                 return;
             }
 
-            editingUsername = username; // Set username yang sedang di-edit
+            editingUsername = username; 
             
             document.getElementById('editing-username-display').textContent = username;
             document.getElementById('editRole').value = user.role;
-            document.getElementById('editPassword').value = ''; // Kosongkan password field
+            document.getElementById('editPassword').value = ''; 
             document.getElementById('editMessage').textContent = '';
             
             document.getElementById('edit-form-container').style.display = 'block';
@@ -555,7 +841,6 @@
                 messageDiv.style.color = 'green';
                 messageDiv.textContent = `Data ${editingUsername} berhasil diperbarui!`;
                 
-                // Muat ulang daftar dan sembunyikan form setelah 1 detik
                 setTimeout(() => {
                     loadUserList(); 
                     document.getElementById('edit-form-container').style.display = 'none';
@@ -568,38 +853,6 @@
                 console.error("LOCAL STORAGE ERROR:", e);
             }
         }
-        
-        // (Sisa script untuk CEK IP, HISTORY IP, PREDIKSI BOLA disisipkan di sini. Karena fungsionalitasnya tidak berubah, saya tidak mencantumkannya untuk menghemat ruang.)
-        /*
-        // --- 3. SCRIPT CEK IP (Fungsionalitas) ---
-        // ... (kode processData, parseRawData, analyzeLoginData, renderResults) ...
-        // --- 4. SCRIPT RIWAYAT (Fungsionalitas History) ---
-        // ... (kode getHistory, saveHistory, loadHistory, clearHistory) ...
-        // --- 5. SCRIPT PREDIKSI BOLA (Fungsionalitas) ---
-        // ... (kode generateTable, copyHTML) ...
-        */
-        
-        // --- Sisipkan kode Cek IP, History, dan Prediksi Bola di bawah ini ---
-        // Karena kode Cek IP, History, dan Prediksi Bola yang lengkap cukup panjang,
-        // diasumsikan Anda akan menyalin kembali kode tersebut ke dalam <script> di atas
-        // agar semua fungsionalitas berjalan dengan baik bersama fitur User Management yang baru.
-        
-        // Contoh penempatan kode Cek IP/Prediksi Bola:
-        const THRESHOLD = 3; 
-        function processData() { /* ... kode cek ip ... */ }
-        function parseRawData(rawData) { /* ... */ }
-        function analyzeLoginData(data) { /* ... */ }
-        function renderResults(results) { /* ... */ }
-        
-        const HISTORY_STORAGE_KEY = 'ipCheckHistory';
-        function getHistory() { /* ... */ }
-        function saveHistory(status) { /* ... */ }
-        function loadHistory() { /* ... */ }
-        function clearHistory() { /* ... */ }
-        
-        function generateTable() { /* ... kode prediksi bola ... */ }
-        function copyHTML() { /* ... */ }
-
     </script>
 </body>
 </html>
