@@ -3,48 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Multi-Fungsi</title>
+    <title>Login & Dashboard Multi-Fungsi</title>
+    
     <style>
-        /* ==================== A. CSS DASAR & BACKGROUND ==================== */
+        /* ==================== A. CSS DASAR & CONTAINER APP ==================== */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            /* Background Gambar Naga dari Cek IP (dipertahankan) */
+            /* Mengganti background polos dengan biru bercorak naga */
+            background-image: url('https://i.postimg.cc/RC2BYrP6/image.png'); /* Ganti dengan URL gambar naga biru Anda */
+            background-color: #0c1b33; /* Dark blue fallback */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* End Latar belakang baru */
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff; /* Teks default jadi putih agar terbaca di background gelap */
+        }
+
+        #main-app-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container-small {
+            /* Ubah kotak login menjadi semi-transparan gelap agar corak terlihat */
+            background: rgba(0, 0, 0, 0.75); 
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Shadow lebih gelap */
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            color: #fff; /* Pastikan teks di dalam kotak putih */
+        }
+        
+        .app-container-large {
             background-image: url('https://infomancingduit.com/wp-content/uploads/2024/12/MANCING.png');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            display: flex;
+            display: flex; 
             min-height: 100vh;
-            color: #444;
+            width: 100%;
+            max-width: none; 
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+            color: #444; /* Dashboard tetap menggunakan warna default untuk teks utama */
+            justify-content: flex-start;
+            align-items: stretch;
         }
-        /* ==================== B. CSS SIDEBAR/MENU ==================== */
+
+        /* Input Group */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            /* color: #444; */ /* Ganti warna label */
+            color: #FFD700; /* Gold untuk kontras */
+        }
+
+        .input-group input, .input-group select { /* Tambah select */
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #222; /* Warna teks input agar tetap terlihat */
+            background-color: #f7f7f7;
+        }
+        
+        /* Tombol Umum */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Tombol Masuk */
+        .btn-primary { background-color: #FFD700; color: #0c1b33; } /* Gold button, dark text */
+        .btn-primary:hover { background-color: #e0b800; transform: translateY(-1px); }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-success:hover { background-color: #1e7e34; transform: translateY(-1px); }
+        .btn-danger { background-color: #dc3545; color: white; margin-top: 10px; }
+        .btn-danger:hover { background-color: #bd2130; }
+        .btn-warning { background-color: #ffc107; color: #343a40; } /* Untuk Approve */
+        .btn-warning:hover { background-color: #e0a800; }
+
+        /* Bagian Navigasi/Link Login/Register */
+        .link-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .link-section a {
+            color: #7bceff; /* Light blue link */
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+        
+        /* ==================== B. CSS SIDEBAR/MENU (Dashboard) ==================== */
         #sidebar {
             width: 250px;
-            background-color: rgba(34, 34, 34, 0.95);
+            background-color: rgba(34, 34, 34, 0.95); 
             padding: 20px 0;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            position: fixed;
-            height: 100%;
+            position: sticky; 
+            height: 100vh;
             color: white;
             z-index: 100;
         }
-        /* CSS BARU UNTUK LOGO */
         #sidebar .logo {
-            width: 80%;
+            width: 80%; 
             height: auto;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 15px auto; 
             display: block;
-        }
-        #sidebar h2 {
-            text-align: center;
-            color: #FFD700;
-            margin-bottom: 30px;
-            text-shadow: 0 0 5px #FFD700;
         }
         .menu-item {
             padding: 15px 20px;
@@ -59,44 +160,94 @@
             background-color: #555;
             color: #FFD700;
         }
-        /* ==================== C. CSS KONTEN UTAMA (Container) ==================== */
+        /* Role Master Only Menu */
+        .menu-master-only {
+            display: none; /* Default hidden, controlled by JS */
+        }
+        /* Role Kapten Hidden Menu (Cek IP, Prediksi Bola) */
+        .menu-kapten-hidden {
+            display: block; /* Default visible, controlled by JS */
+        }
+        #dashboard-view .btn-danger {
+            margin-top: auto;
+            border-radius: 0;
+            width: 100%;
+        }
+
+        /* ==================== C. CSS KONTEN UTAMA (Dashboard) ==================== */
         #main-container {
             flex-grow: 1;
-            margin-left: 250px;
             padding: 20px;
             box-sizing: border-box;
         }
         .content-panel {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
-        /* ==================== D. CSS CEK IP ==================== */
-        h1 { color: #222; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        /* Ubah warna header agar terlihat di background gelap login/register */
+        h1, h2 { color: #fff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+        
+        /* Cek IP Specific CSS */
+        #content-cek-ip { background-color: rgba(255, 255, 255, 0.95); }
+        
+        /* CSS BARU UNTUK INFO USER */
+        #user-info-box {
+            background-color: #ffeb3b; /* Kuning terang */
+            color: #333;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #fbc02d;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
         textarea#logInput { width: 100%; height: 200px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
         button#btn-cek-ip { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #e0e6ed; }
+        #content-cek-ip table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        #content-cek-ip th, #content-cek-ip td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        #content-cek-ip th { background-color: #e0e6ed; }
         .high-count { background-color: #ffcccc; font-weight: bold; }
         #running-text { padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid #ccc; }
         .glowing-text {
             font-size: 1.5em; font-weight: bold;
             text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px currentColor, 0 0 20px currentColor;
         }
-        /* ==================== E. CSS PREDIKSI BOLA ==================== */
-        #content-prediksi-bola {
-            background: rgba(0, 0, 0, 0.85); 
-            color: white;
+        
+        /* CEK TO CRM Specific CSS */
+        #content-cek-to-crm { background-color: rgba(255, 255, 255, 0.95); }
+        #content-cek-to-crm textarea { width: 100%; height: 150px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        #output-to-crm { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border: 1px solid #007bff; 
+            background-color: #e6f0ff; 
+            border-radius: 8px; 
+            text-align: left;
         }
-        #content-prediksi-bola h2 {
-            color: #FFD700;
-            text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700;
-            margin-bottom: 20px;
+        #output-to-crm h3 { margin-top: 0; color: #007bff; }
+
+        /* PG Soft Calc Specific CSS */
+        #content-pg-soft-calc { background-color: rgba(255, 255, 255, 0.95); }
+        #content-pg-soft-calc textarea { width: 100%; height: 150px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        #output-pg-soft { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border: 1px solid #28a745; /* Success Green border */
+            background-color: #e6ffe6; 
+            border-radius: 8px; 
+            text-align: left;
         }
+        #output-pg-soft h3 { margin-top: 0; color: #28a745; }
+
+
+        /* Prediksi Bola Specific CSS */
+        #content-prediksi-bola { background: rgba(0, 0, 0, 0.85); color: white; }
+        #content-prediksi-bola h2 { color: #FFD700; text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700; margin-bottom: 20px; }
         #content-prediksi-bola textarea {
             width: calc(100% - 20px); height: 150px; margin-bottom: 10px; border-radius: 5px; padding: 10px; resize: vertical;
             background: #222; color: #eee; border: 1px solid #555;
@@ -105,200 +256,377 @@
             background: #FFD700; color: black; border: none; padding: 10px 25px; margin: 5px; cursor: pointer;
             font-weight: bold; border-radius: 5px; transition: background 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 5px #FFD700;
         }
-        #content-prediksi-bola button:hover { background: #FFE066; box-shadow: 0 0 10px #FFD700; }
         #htmlOutput { height: 300px; background: #111; color: #0f0; font-family: 'Consolas', 'Monaco', monospace; border: 1px solid #333; }
-        .match-block {
-            background: #1a1a1a; color: white; border-radius: 5px; margin: 25px auto; padding: 0; width: 100%; max-width: 700px;
-            overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.7);
-        }
-        .match-block .league-title {
-            background: #000000; color: #f6ff00; padding: 10px 15px; margin: 0; text-align: center;
-            font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: 0 0 6px #FFFF00;
-        }
-        .match-block thead th {
-            background: #fffb00; color: #000; font-weight: bold; padding: 8px 12px; border: 1px solid #444; text-align: center;
-        }
-        .match-block tbody td {
-            background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center;
-        }
-        /* ==================== F. CSS HISTORY CEK IP (BARU/MODIFIED) ==================== */
-        #content-history-cek-ip h2 { color: #007bff; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        #content-history-cek-ip button { 
-            background-color: #dc3545;
-            color: white; 
-            border: none; 
-            padding: 10px 15px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-        }
-        #content-history-cek-ip button:hover {
-            background-color: #c82333;
-        }
-        #content-history-cek-ip table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        #content-history-cek-ip th, #content-history-cek-ip td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        #content-history-cek-ip th { background-color: #f2f2f2; color: #333; font-weight: bold; }
-        .status-cek { background-color: #ffcccc; font-weight: bold; }
-        .status-normal { background-color: #e8f5e9; }
-        
-        /* CSS Tambahan untuk detail history */
-        .history-detail-toggle {
-            cursor: pointer;
-            color: #007bff;
-            font-weight: bold;
-            user-select: none;
-        }
-        .history-detail-table {
-            width: 95%;
-            margin: 10px auto 10px 10px;
-            border: 1px dashed #aaa;
-            display: none; /* Sembunyikan secara default */
-            font-size: 0.9em;
-        }
-        .history-detail-table th, .history-detail-table td {
-            padding: 5px;
-            border: 1px solid #eee;
-        }
-        .history-detail-table .high-count-detail {
-            background-color: #f8d7da; /* Warna merah muda lebih lembut */
-        }
+        .match-block { background: #1a1a1a; color: white; border-radius: 5px; margin: 25px auto; padding: 0; width: 100%; max-width: 700px; overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.7); }
+        .match-block .league-title { background: #000000; color: #f6ff00; padding: 10px 15px; margin: 0; text-align: center; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: 0 0 6px #FFFF00; }
+        .match-block thead th { background: #fffb00; color: #000; font-weight: bold; padding: 8px 12px; border: 1px solid #444; text-align: center; }
+        .match-block tbody td { background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center; }
+
+        /* Kelola User Specific CSS */
+        #content-kelola-user { background-color: rgba(255, 255, 255, 0.95); }
+        #user-form { display: flex; flex-direction: column; gap: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; }
+        #user-form input, #user-form select { padding: 10px; border-radius: 5px; border: 1px solid #ddd; }
+        #user-form button { width: auto; margin-top: 5px; padding: 10px 20px; }
+        #user-table { margin-top: 20px; width: 100%; border-collapse: collapse; }
+        #user-table th, #user-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        #user-table th { background-color: #e0e6ed; }
+        #user-table td button { width: auto; padding: 5px 10px; margin: 2px; font-size: 12px; }
+        .status-pending { color: orange; font-weight: bold; }
+        .status-approved { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+
+        /* History IP Specific CSS */
+        #content-history-ip { background-color: rgba(255, 255, 255, 0.95); }
+        #history-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        #history-table th, #history-table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.9em; }
+        #history-table th { background-color: #ffeb3b; } /* Warna Kuning untuk Master */
+        .history-raw-data { max-height: 100px; overflow: auto; background-color: #f8f8f8; padding: 5px; border-radius: 3px; font-family: monospace; white-space: pre-wrap; word-break: break-all; }
+
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <img src="https://i.postimg.cc/8PMP5890/logo.png" alt="Logo Mancing Duit" class="logo">
-        
-        <a href="#" class="menu-item active" data-content="cek-ip" id="menu-cek-ip">🔍 Cek IP</a>
-        <a href="#" class="menu-item" data-content="history-cek-ip" id="menu-history-cek-ip">📜 HISTORY CEK IP</a>
-        <a href="#" class="menu-item" data-content="prediksi-bola" id="menu-prediksi-bola">⚽ PREDIKSI BOLA</a>
-    </div>
-    <div id="main-container">
-        <div id="content-cek-ip" class="content-panel">
-            <div id="running-text">
-                <marquee behavior="scroll" direction="left" scrollamount="10">
-                    <span class="glowing-text">
-                        <span style="color: #FF0000;">C</span> <span style="color: #FF00FF;">E</span> <span style="color: #00FFFF;">K</span> <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span> <span style="color: #4B0082;">E</span> <span style="color: #FF0000;">T</span> <span style="color: #FF00FF;">I</span> <span style="color: #00FFFF;">A</span> <span style="color: #00FF00;">P</span> <span style="color: #0000FF;">&nbsp;1</span> <span style="color: #4B0082;">&nbsp;J</span> <span style="color: #FF0000;">A</span> <span style="color: #FF00FF;">M</span> <span style="color: #00FFFF;">&nbsp;S</span> <span style="color: #00FF00;">E</span> <span style="color: #0000FF;">K</span> <span style="color: #4B0082;">A</span> <span style="color: #FF0000;">L</span> <span style="color: #FF00FF;">I</span> </span>
-                </marquee>
+    
+    <div id="main-app-container">
+
+        <section id="login-view" class="app-container-small">
+            <h1>👋 Selamat Datang</h1>
+            <p>Silakan masuk ke akun Anda.</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+            <div class="link-section">
+                <p>Belum punya akun?</p>
+                <a href="#" onclick="showView('register-view'); return false;">Register Akun Baru</a>
             </div>
-            <h1>🔍 Dashboard Analisis IP Login</h1>
-            <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
-            <textarea id="logInput" placeholder="Tempelkan data Anda di sini..."></textarea>
-            <button onclick="processData()" id="btn-cek-ip">Klik Disini</button>
-            <div id="results">
-                <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+        </section>
+
+        <section id="register-view" class="app-container-small" style="display: none;">
+            <h1>✍️ Daftar Akun Baru</h1>
+            <p>Isi detail Anda untuk membuat akun.</p>
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="reg-username">Username:</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="reg-password">Password:</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <button type="submit" class="btn btn-success">Daftar Sekarang</button>
+            </form>
+            <div class="link-section">
+                <p>Sudah punya akun?</p>
+                <a href="#" onclick="showView('login-view'); return false;">Kembali ke Login</a>
             </div>
-        </div>
+        </section>
         
-        <div id="content-history-cek-ip" class="content-panel" style="display: none;">
-            <h2>📜 Riwayat Pengecekan IP</h2>
-            <button onclick="clearHistory()">Hapus Semua Riwayat</button>
-            <p style="font-style: italic; color: #555;">(Data riwayat ini menyimpan detail dan tersimpan **Lokal** di browser Anda. Tidak dapat dilihat oleh pengguna lain.)</p>
-            <div id="history-results">
-                <p>Belum ada riwayat pengecekan IP yang tersimpan.</p>
-            </div>
-        </div>
-        
-        <div id="content-prediksi-bola" class="content-panel" style="display: none;">
-            <h2>PREDIKSI BOLA</h2>
-            <textarea id="input" placeholder="Masukkan pertandingan di sini..."></textarea><br>
-            <button onclick="generateTable()">GENERATE TABEL</button>
-            <button onclick="copyHTML()">COPY SEMUA HTML</button>
-            <div id="output"></div>
-            <h3 class="hasil-html">📋 Hasil HTML Disini:</h3>
-            <textarea id="htmlOutput" readonly></textarea>
-        </div>
-    </div>
-    <script>
-        // Key untuk menyimpan riwayat di localStorage
-        const HISTORY_STORAGE_KEY = 'ipCheckHistoryV2';
-        
-        // --- 1. SCRIPT PENGATUR MENU (CONTENT SWITCHING) ---
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Hapus kelas 'active' dari semua menu
-                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-                
-                // Tambahkan kelas 'active' ke menu yang diklik
-                this.classList.add('active');
-                // Sembunyikan semua panel konten
-                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
-                
-                // Tampilkan panel konten yang sesuai
-                const targetId = 'content-' + this.getAttribute('data-content');
-                const targetPanel = document.getElementById(targetId);
-                if (targetPanel) {
-                    targetPanel.style.display = 'block';
-                }
-                
-                // PANGGIL FUNGSI UNTUK MEMUAT RIWAYAT JIKA MENU HISTORY DIPILIH
-                if (this.getAttribute('data-content') === 'history-cek-ip') {
-                    loadHistory();
-                }
-            });
-        });
-        
-        // --- 2. SCRIPT RESET INPUT KETIKA REFRESH ---
-        window.onload = function() {
-            // Reset input CEK IP
-            document.getElementById('logInput').value = '';
-            document.getElementById('results').innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
+        <section id="dashboard-view" class="app-container-large" style="display: none;">
             
-            // Reset input PREDIKSI BOLA
-            document.getElementById('input').value = ''; 
-            document.getElementById('output').innerHTML = '';
-            document.getElementById('htmlOutput').value = '';
-        };
+            <div id="sidebar">
+                <img src="https://i.postimg.cc/8PMP5890/logo.png" alt="Logo Mancing Duit" class="logo">
+                <a href="#" class="menu-item active menu-kapten-hidden" data-content="cek-ip" id="menu-cek-ip" onclick="switchDashboardContent('cek-ip', this); return false;">🔍 Cek IP</a>
+                
+                <a href="#" class="menu-item" data-content="cek-to-crm" id="menu-cek-to-crm" onclick="switchDashboardContent('cek-to-crm', this); return false;">💲 CEK TO CRM</a>
+                
+                <a href="#" class="menu-item" data-content="pg-soft-calc" id="menu-pg-soft-calc" onclick="switchDashboardContent('pg-soft-calc', this); return false;">🎰 HITUNG KEMENANGAN PG SOFT</a>
+                
+                <a href="#" class="menu-item menu-kapten-hidden" data-content="prediksi-bola" id="menu-prediksi-bola" onclick="switchDashboardContent('prediksi-bola', this); return false;">⚽ PREDIKSI BOLA</a>
+                
+                <a href="#" class="menu-item menu-master-only" data-content="kelola-user" id="menu-kelola-user" onclick="switchDashboardContent('kelola-user', this); return false;">👤 Kelola User</a> 
+                <button id="logout-button" class="btn btn-danger" onclick="handleLogout(); return false;">Keluar (Logout)</button>
+            </div>
+            
+            <div id="main-container">
+                
+                <div id="content-cek-ip" class="content-panel">
+                    <div id="user-info-box"></div> 
+                    <div id="running-text">
+                        <marquee behavior="scroll" direction="left" scrollamount="10">
+                            <span class="glowing-text">
+                                <span style="color: #FF0000;">C</span> <span style="color: #FF00FF;">E</span> <span style="color: #00FFFF;">K</span> <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span> <span style="color: #4B0082;">E</span> <span style="color: #FF0000;">T</span> <span style="color: #FF00FF;">I</span> <span style="color: #00FFFF;">A</span> <span style="color: #00FF00;">P</span> <span style="color: #0000FF;">&nbsp;1</span> <span style="color: #4B0082;">&nbsp;J</span> <span style="color: #FF0000;">A</span> <span style="color: #FF00FF;">M</span> <span style="color: #00FFFF;">&nbsp;S</span> <span style="color: #00FF00;">E</span> <span style="color: #0000FF;">K</span> <span style="color: #4B0082;">A</span> <span style="color: #FF0000;">L</span> <span style="color: #FF00FF;">I</span> 
+                            </span>
+                        </marquee>
+                    </div>
+                    <h1>🔍 Dashboard Analisis IP Login</h1>
+                    <p>✅Tempelkan data Anda di bawah ini. Tekan **F5** untuk membersihkan input.</p>
+                    <textarea id="logInput" placeholder="Tempelkan data Anda di sini (misal: 'UserID1    2024-12-09 10:00:00    192.168.1.1')..." autocomplete="off"></textarea>
+                    <button onclick="processData()" id="btn-cek-ip">Klik Disini</button>
+                    <div id="results">
+                        <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+                    </div>
+                </div>
+                
+                <div id="content-cek-to-crm" class="content-panel" style="display: none;">
+                    <h2>💲 CEK TOTAL PERTARUHAN (TO)</h2>
+                    <p>✅ Tempelkan data transaksi log (semua baris) di sini untuk menghitung Total Nominal Pertaruhan (TO).</p>
+                    <textarea id="toInput" placeholder="Tempelkan data log transaksi Anda di sini. Hanya transaksi 'Pertaruhan' yang akan dihitung..." autocomplete="off"></textarea>
+                    <button class="btn btn-primary" onclick="processToData()">PROSES & HITUNG TOTAL TO</button>
+                    <div id="output-to-crm">
+                        <h3>📋 Hasil Total Turn Over (TO):</h3>
+                        <pre id="crmOutput" style="white-space: pre-wrap; font-family: monospace;">Total TO akan muncul di sini setelah Anda memproses data log.</pre>
+                    </div>
+                </div>
+
+                <div id="content-pg-soft-calc" class="content-panel" style="display: none;">
+                    <h2>🎰 HITUNG TOTAL PEMBAYARAN PG SOFT</h2>
+                    <p>✅ Tempelkan data log PG Soft (semua baris) di sini. **Hanya menghitung total nominal pada baris 'Pembayaran'.**</p>
+                    <textarea id="pgSoftInput" placeholder="Tempelkan data log transaksi PG Soft Anda di sini. Nominal 'Pembayaran' yang akan dijumlahkan." autocomplete="off"></textarea>
+                    <button class="btn btn-primary" onclick="processPgSoftData()">PROSES & HITUNG TOTAL PEMBAYARAN</button>
+                    
+                    <div id="output-pg-soft">
+                        <h3>📋 Hasil Total Pembayaran (Win/Payout)</h3>
+                        <pre id="pgSoftOutput" style="white-space: pre-wrap; font-family: monospace;">Total Pembayaran akan muncul di sini setelah Anda memproses data log.</pre>
+                        
+                        <hr style="border-top: 2px dashed #ccc; margin: 20px 0;">
+
+                        <h3>✨ HITUNG KEMENANGAN BERSIH (NETT WIN)</h3>
+                        <p>1. Pastikan Anda sudah memproses data Pembayaran di atas.</p>
+                        <p>2. Tempelkan total nominal Normal Spin (Bukan Bet/TO) di bawah ini:</p>
+                        
+                        <input type="text" id="normalSpinInput" placeholder="Contoh: 1,721,600" style="margin-bottom: 10px; text-align: right;">
+
+                        <button class="btn btn-success" onclick="calculateNetWin()">HITUNG KEMENANGAN BERSIH</button>
+                        
+                        <pre id="netWinOutput" style="white-space: pre-wrap; font-family: monospace; margin-top: 15px; padding: 10px; background-color: #f7fff7; border: 1px solid #28a745;">Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).</pre>
+                    </div>
+                    </div>
+
+                <div id="content-prediksi-bola" class="content-panel" style="display: none;">
+                    <h2>⚽ PREDIKSI BOLA</h2>
+                    <p>Masukkan data pertandingan di sini:</p>
+                    <textarea id="input" placeholder="Masukkan pertandingan di sini (pisahkan dengan baris baru untuk liga baru)..." autocomplete="off"></textarea><br>
+                    <button onclick="generateTable()">GENERATE TABEL</button>
+                    <button onclick="copyHTML()">COPY SEMUA HTML</button>
+                    <div id="output"></div>
+                    <h3 class="hasil-html">📋 Hasil HTML Disini:</h3>
+                    <textarea id="htmlOutput" readonly autocomplete="off"></textarea>
+                </div>
+
+                <div id="content-history-ip" class="content-panel" style="display: none;">
+                    <h2>📜 History Pengecekan IP Staff</h2>
+                    <p>Riwayat pengecekan IP yang dilakukan oleh semua staf (CS/Kapten) dan Master.</p>
+                    <button class="btn btn-danger" style="width: auto; margin-top: 5px;" onclick="clearHistory()">❌ Hapus Semua Riwayat</button>
+                    <div id="history-list">
+                        <table id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu Cek</th>
+                                    <th>Username Staf</th>
+                                    <th>Jumlah IP Unik</th>
+                                    <th>IP Terbanyak (Hit)</th>
+                                    <th>Data Mentah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="content-kelola-user" class="content-panel" style="display: none;">
+                    <h2>👤 Kelola User</h2>
+                    <p>Fungsi untuk menambah, mengedit, atau menghapus data user.</p>
+
+                    <form id="user-form">
+                        <input type="hidden" id="user-id">
+                        <input type="text" id="user-username" placeholder="Username" required>
+                        <input type="email" id="user-email" placeholder="Email" required>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label for="user-role" style="margin-bottom: 0;">Role:</label>
+                            <select id="user-role" required>
+                                <option value="CS">CS</option>
+                                <option value="KAPTEN">KAPTEN</option>
+                                <option value="MASTER">MASTER</option>
+                            </select>
+                        </div>
+                        <input type="password" id="user-password" placeholder="Password (Kosongkan jika tidak diubah)">
+                        <button type="submit" id="submit-user-btn" class="btn-primary">Tambah User</button>
+                        <button type="button" id="cancel-edit-btn" class="btn-danger" style="display:none; width: auto;" onclick="resetUserForm()">Batal Edit</button>
+                    </form>
+
+                    <div id="user-list">
+                        <h3>Daftar User Saat Ini</h3>
+                        <table id="user-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th> <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+    </div>
+
+    <script>
+        const mainAppContainer = document.getElementById('main-app-container');
+        const THRESHOLD = 3; 
         
-        // --- 3. SCRIPT CEK IP (Fungsionalitas) ---
-        const THRESHOLD = 3;
+        let currentUsername = null;
+        let currentUserRole = null; 
+        
+        // VARIABEL GLOBAL BARU UNTUK MENYIMPAN HASIL PEMBAYARAN TERAKHIR
+        let lastTotalPayout = 0; 
+        
+        // Initial Data for User Management - TAMBAHKAN PROPERTI 'status'
+        let users = [
+            // Master/Admin harus APPROVED
+            { id: 1, username: 'cg88', email: 'master@example.com', password: 'asd123', role: 'MASTER', status: 'APPROVED' },
+            { id: 2, username: 'admin', email: 'admin@example.com', password: 'password123', role: 'MASTER', status: 'APPROVED' },
+            // User CS dan Kapten juga di-set APPROVED default untuk akun yang sudah ada
+            { id: 3, username: 'testuser', email: 'test@example.com', password: 'password123', role: 'CS', status: 'APPROVED' },
+            { id: 4, username: 'kapten', email: 'kapten@example.com', password: 'password123', role: 'KAPTEN', status: 'APPROVED' }
+        ];
+        let nextUserId = 5;
+
+        // ======================================
+        // A. Fungsi Navigasi & Utility
+        // ======================================
+
+        function showView(viewId) {
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('register-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'none';
+
+            if (viewId === 'dashboard-view') {
+                mainAppContainer.className = 'app-container-large';
+                updateSidebarVisibility(currentUserRole); // Panggil untuk update menu
+                document.getElementById(viewId).style.display = 'flex'; 
+            } else {
+                mainAppContainer.className = 'app-container-small';
+                document.getElementById(viewId).style.display = 'block'; 
+                currentUsername = null; 
+                currentUserRole = null;
+            }
+        }
+        
+        function updateSidebarVisibility(role) {
+            // 1. Tangani menu hanya untuk MASTER (Kelola User)
+            const masterMenus = document.querySelectorAll('.menu-master-only');
+            masterMenus.forEach(menu => {
+                menu.style.display = (role === 'MASTER') ? 'block' : 'none';
+            });
+
+            // 2. Tangani menu yang disembunyikan untuk KAPTEN (Cek IP & Prediksi Bola)
+            const kaptenHiddenMenus = document.querySelectorAll('.menu-kapten-hidden');
+            // Jika role adalah KAPTEN, sembunyikan (none). Selain KAPTEN, tampilkan (block).
+            const kaptenHiddenVisibility = (role === 'KAPTEN') ? 'none' : 'block'; 
+            kaptenHiddenMenus.forEach(menu => {
+                // FIX: Menggunakan menu.style.display, bukan menu.display
+                menu.style.display = kaptenHiddenVisibility;
+            });
+            
+            // 3. (PENTING) Jika role KAPTEN, pastikan konten default yang aktif adalah yang visible.
+            if (role === 'KAPTEN') {
+                const activeMenu = document.querySelector('.menu-item.active');
+                if (activeMenu && (activeMenu.id === 'menu-cek-ip' || activeMenu.id === 'menu-prediksi-bola')) {
+                     // Pindah ke menu 'CEK TO CRM' sebagai default Kapten
+                     const defaultMenu = document.getElementById('menu-cek-to-crm');
+                     if (defaultMenu) {
+                         switchDashboardContent('cek-to-crm', defaultMenu);
+                     }
+                }
+            }
+        }
+
+        // FUNGSI BARU: Update kotak info user - DISESUAIKAN UNTUK HANYA MENAMPILKAN USERNAME
+        function updateUserInfoBox(username) {
+            const box = document.getElementById('user-info-box');
+            if (box && username) {
+                box.innerHTML = `Anda login sebagai: <strong><span style="color: #007bff;">${username}</span></strong>`;
+            } else if (box) {
+                box.innerHTML = ''; // Kosongkan box di menu lain
+            }
+        }
+
+        function switchDashboardContent(contentId, clickedElement) {
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            if (clickedElement) clickedElement.classList.add('active');
+
+            document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+            const targetId = 'content-' + contentId;
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.style.display = 'block';
+            }
+
+            // Panggil fungsi update info box saat berpindah ke Cek IP
+            if (contentId === 'cek-ip') {
+                 // Hanya kirim username
+                 updateUserInfoBox(currentUsername); 
+            } else {
+                 updateUserInfoBox(null); // Kosongkan box di menu lain
+            }
+            
+            if (contentId === 'kelola-user') {
+                renderUserTable();
+            } else if (contentId === 'history-ip') { 
+                renderHistoryTable();
+            }
+        }
+
+        function handleLogout() {
+            alert('Anda telah berhasil keluar (logout).');
+            currentUsername = null; 
+            currentUserRole = null;
+            showView('login-view');
+            window.resetInput(); 
+        }
+        window.handleLogout = handleLogout;
+
+
+        // ======================================
+        // B. Logika Cek IP & History IP
+        // ======================================
+        
         function processData() {
             const rawData = document.getElementById('logInput').value;
-            
             if (!rawData.trim()) {
                 document.getElementById('results').innerHTML = "<p>⚠️ Harap tempelkan data terlebih dahulu.</p>";
                 return;
             }
-            
             const logData = parseRawData(rawData);
             const analysisResults = analyzeLoginData(logData);
             renderResults(analysisResults);
             
-            // Tentukan status riwayat
-            const highCountIPs = analysisResults.filter(item => item.userCount >= THRESHOLD);
-            const status = highCountIPs.length > 0 
-                ? `❌ Ditemukan ${highCountIPs.length} IP di atas batas (${THRESHOLD} User ID)`
-                : '✅ Normal';
-            
-            // Panggil fungsi BARU untuk menyimpan riwayat LENGKAP
-            saveHistory(status, analysisResults); 
+            saveHistory(rawData, analysisResults);
         }
+        window.processData = processData;
         
         function parseRawData(rawData) {
             const lines = rawData.trim().split('\n');
             const parsedData = [];
-            const ipRegex = /\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/;
-
             lines.forEach(line => {
                 const parts = line.trim().split(/\s{2,}|\t/);
-                
-                // Mencoba menemukan IP di mana saja, lalu ambil token pertama sebagai User ID
-                const ipMatch = line.match(ipRegex);
-                if (ipMatch) {
-                    const ipLogin = ipMatch[0];
-                    // Anggap User ID adalah kata/token pertama sebelum spasi/tab
-                    const userId = line.trim().split(/\s+|\t/)[0];
-
-                    if (userId && ipLogin) {
-                        parsedData.push({ userId: userId.trim(), ipLogin });
+                if (parts.length >= 3) {
+                    const userId = parts[0].trim();
+                    let ipLogin = parts[2].trim(); 
+                    if (userId && ipLogin && ipLogin.match(/^(\d{1,3}\.){3}\d{1,3}$/)) {
+                        parsedData.push({ userId, ipLogin });
                     }
                 }
             });
             return parsedData;
         }
-        
+
         function analyzeLoginData(data) {
             const ipCounts = {};
             data.forEach(log => {
@@ -312,15 +640,15 @@
             resultsArray.sort((a, b) => b.userCount - a.userCount);
             return resultsArray;
         }
-        
+
         function renderResults(results) {
             const resultsDiv = document.getElementById('results');
             if (results.length === 0) {
                 resultsDiv.innerHTML = "<p>Tidak ada data valid yang ditemukan setelah diproses. Harap cek kembali format data yang ditempelkan.</p>";
                 return;
             }
-            let html = `<h2>Hasil Analisis: ${results.length} IP Unik</h2>`;
-            html += `<p>Data diurutkan dari IP dengan User ID terbanyak. Status "CEK IP INI" jika hitungan >= ${THRESHOLD}.</p>`;
+            let html = `<h2>Hasil Analisis: ${results.length} IP Unik}</h2>`;
+            html += `<p>Data diurutkan dari IP dengan User ID terbanyak. Status "CEK IP INI" jika hitungan >= **${THRESHOLD}**.</p>`;
             html += '<table>';
             html += '<thead><tr><th>IP Address</th><th>Total User ID Unik</th><th>Status</th></tr></thead>';
             html += '<tbody>';
@@ -337,141 +665,312 @@
             resultsDiv.innerHTML = html;
         }
         
-        // --- 4. SCRIPT RIWAYAT (Fungsionalitas History - MODIFIED DATE/TIME FORMAT) ---
+        // --- LOGIKA HISTORY CEK IP ---
         
-        // Fungsi pembantu untuk memastikan angka memiliki 2 digit (misal: 05)
-        function padZero(num) {
-            return num.toString().padStart(2, '0');
-        }
-
-        function getHistory() {
-            try {
-                const historyJson = localStorage.getItem(HISTORY_STORAGE_KEY);
-                return historyJson ? JSON.parse(historyJson) : [];
-            } catch (e) {
-                console.error("Gagal memuat riwayat dari localStorage:", e);
-                return [];
+        function formatHistoryTimestamp(dateString) {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return dateString; 
             }
-        }
-        
-        function saveHistory(status, analysisResults) {
-            const now = new Date();
             
-            // Format Tanggal: DD Bulan YYYY (misal: 10 Desember 2025)
-            const day = now.getDate();
-            const year = now.getFullYear();
-            const monthNames = [
-                "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-            ];
-            const month = monthNames[now.getMonth()];
-            const formattedDate = `${day} ${month} ${year}`;
-
-            // Format Jam: HH:MM:SS (misal: 21:28:10)
-            const hour = padZero(now.getHours());
-            const minute = padZero(now.getMinutes());
-            const second = padZero(now.getSeconds());
-            const formattedTime = `${hour}:${minute}:${second}`;
-            
-            const newEntry = {
-                id: Date.now(), 
-                date: formattedDate,
-                time: formattedTime,
-                status: status,
-                details: analysisResults
+            const dateOptions = { 
+                day: '2-digit', 
+                month: 'long', 
+                year: 'numeric'
             };
             
-            const history = getHistory();
-            history.unshift(newEntry);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
             
-            const MAX_HISTORY = 50; 
-            if (history.length > MAX_HISTORY) {
-                history.length = MAX_HISTORY;
-            }
-            
-            try {
-                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
-            } catch (e) {
-                alert("Peringatan: Gagal menyimpan riwayat. Ruang penyimpanan browser mungkin penuh.");
-                console.error("Gagal menyimpan riwayat:", e);
-            }
-        }
-        
-        function toggleDetails(id) {
-            const detailElement = document.getElementById('details-' + id);
-            if (detailElement) {
-                detailElement.style.display = detailElement.style.display === 'table' ? 'none' : 'table';
-            }
+            return `${formattedDate}, ${formattedTime}`; 
         }
 
-        function loadHistory() {
-            const history = getHistory();
-            const historyDiv = document.getElementById('history-results');
+        function saveHistory(rawData, analysisResults) {
+            const historyKey = 'ip_check_history';
+            let history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+
+            const highCountIP = analysisResults.find(r => r.userCount >= THRESHOLD);
+            const highIpInfo = highCountIP 
+                ? `${highCountIP.ipAddress} (${highCountIP.userCount} user)` 
+                : 'T/A';
+
+            const newEntry = {
+                timestamp: new Date().toISOString(), 
+                username: currentUsername || 'UNKNOWN',
+                uniqueIpCount: analysisResults.length,
+                highIp: highIpInfo,
+                rawData: rawData.substring(0, 200) + (rawData.length > 200 ? '...' : '')
+            };
+
+            history.unshift(newEntry); 
+
+            if (history.length > 100) {
+                history = history.slice(0, 100);
+            }
+
+            localStorage.setItem(historyKey, JSON.stringify(history));
+        }
+
+        function renderHistoryTable() {
+            const historyKey = 'ip_check_history';
+            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+            const tbody = document.getElementById('history-table').querySelector('tbody');
             
+            tbody.innerHTML = ''; 
+
             if (history.length === 0) {
-                historyDiv.innerHTML = '<p>Belum ada riwayat pengecekan IP yang tersimpan.</p>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada riwayat pengecekan IP yang tercatat.</td></tr>';
+                return;
+            }
+
+            history.forEach((entry, index) => {
+                const formattedTime = formatHistoryTimestamp(entry.timestamp); 
+                
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${formattedTime}</td>
+                    <td>${entry.username}</td>
+                    <td>${entry.uniqueIpCount}</td>
+                    <td>${entry.highIp}</td>
+                    <td><div class="history-raw-data">${entry.rawData}</div></td>
+                `;
+            });
+        }
+        window.renderHistoryTable = renderHistoryTable;
+
+        function clearHistory() {
+            if (confirm("ANDA YAKIN INGIN MENGHAPUS SEMUA RIWAYAT CEK IP? Aksi ini tidak bisa dibatalkan!")) {
+                const historyKey = 'ip_check_history';
+                localStorage.removeItem(historyKey);
+                alert("Semua riwayat pengecekan IP telah berhasil dihapus.");
+                renderHistoryTable(); 
+            }
+        }
+        window.clearHistory = clearHistory;
+        // --- END LOGIKA HISTORY CEK IP ---
+
+
+        // ======================================
+        // C. Logika CEK TO CRM 
+        // ======================================
+        
+        function processToData() {
+            const rawData = document.getElementById('toInput').value;
+            const lines = rawData.toUpperCase().trim().split('\n');
+            const crmOutput = document.getElementById('crmOutput');
+
+            if (lines.length === 0 || rawData.trim().length === 0) {
+                crmOutput.textContent = "⚠️ Masukkan data log transaksi terlebih dahulu untuk diproses.";
+                return;
+            }
+
+            let totalTO = 0;
+            let foundLines = 0;
+
+            // Regex yang sudah terbukti berhasil
+            const betRegex = /PERTARUHAN\s*([\d\.,]+)/g; 
+
+            const singleStringData = lines.join(' ');
+            
+            let match;
+            while ((match = betRegex.exec(singleStringData)) !== null) {
+                let amountString = match[1];
+                
+                // Bersihkan: Hapus semua koma (,) karena dianggap pemisah ribuan dalam data log Anda
+                let cleanAmountString = amountString.replace(/,/g, ''); 
+                
+                let amount = parseFloat(cleanAmountString);
+
+                if (!isNaN(amount) && amount > 0) {
+                    totalTO += amount;
+                    foundLines++;
+                }
+            }
+            
+            // Format menggunakan locale 'en-US' (Amerika) untuk koma ribuan (133,200)
+            const formatter = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 0, 
+                maximumFractionDigits: 0,
+            });
+
+            const formattedTotalTO = formatter.format(totalTO); 
+            
+            // Output
+            let outputText = `Total Nominal Pertaruhan (TO) Ditemukan:\n\n`;
+            outputText += `==========================================\n`;
+            outputText += `  Total TO (Nominal): ${formattedTotalTO}\n`;
+            outputText += `  (Dihitung dari ${foundLines} transaksi 'Pertaruhan')\n`;
+            outputText += `==========================================`;
+
+            crmOutput.textContent = outputText;
+            alert(`✅ Total TO berhasil dihitung: ${formattedTotalTO}`);
+        }
+        window.processToData = processToData;
+
+
+        // ======================================
+        // D. Logika HITUNG KEMENANGAN PG SOFT (Hanya Pembayaran)
+        // ======================================
+        
+        function processPgSoftData() {
+            const rawData = document.getElementById('pgSoftInput').value;
+            // Pisahkan data per baris
+            const lines = rawData.toUpperCase().trim().split('\n').filter(l => l.trim().length > 0); 
+            const pgSoftOutput = document.getElementById('pgSoftOutput');
+            const netWinOutput = document.getElementById('netWinOutput');
+
+
+            if (lines.length === 0) {
+                pgSoftOutput.textContent = "⚠️ Masukkan data log transaksi PG Soft terlebih dahulu untuk diproses.";
+                // Reset juga output net win
+                netWinOutput.textContent = "Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).";
+                lastTotalPayout = 0;
+                return;
+            }
+
+            let totalPayout = 0;
+            let foundPayouts = 0;
+            
+            // Regex mencari nominal di kolom payout (nominal kedua setelah 'Pembayaran')
+            const payoutRegex = /PEMBAYARAN[\d\.,]+\s*([\d\.,]+)/; 
+
+            lines.forEach(line => {
+                if (line.includes('PEMBAYARAN')) {
+                    const match = line.match(payoutRegex);
+                    
+                    if (match && match[1]) {
+                        let amountString = match[1];
+                        
+                        // Bersihkan: Hapus semua koma (,) karena diasumsikan sebagai pemisah ribuan
+                        let cleanAmountString = amountString.replace(/,/g, ''); 
+                        
+                        let amount = parseFloat(cleanAmountString);
+
+                        if (!isNaN(amount) && amount > 0) {
+                            totalPayout += amount;
+                            foundPayouts++;
+                        }
+                    } else {
+                        // Logika fallback untuk baris yang tidak sesuai format Regex di atas
+                        const parts = line.split(/[^\d\.,]+/g).filter(p => p.trim().length > 0); 
+                        // Ambil angka kedua dari belakang (sebelum saldo akhir)
+                        if (parts.length >= 2) {
+                            let nominalIndex = parts.length - 2; 
+                            let amountString = parts[nominalIndex];
+                            let cleanAmountString = amountString.replace(/,/g, ''); 
+                            let amount = parseFloat(cleanAmountString);
+                            
+                            if (!isNaN(amount) && amount > 0) {
+                                totalPayout += amount;
+                                foundPayouts++;
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Simpan hasil payout ke variabel global
+            lastTotalPayout = totalPayout; 
+            
+            // Formatting helper function
+            const formatter = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 0, 
+                maximumFractionDigits: 0,
+            });
+
+            const formattedPayout = formatter.format(totalPayout);
+            
+            // Output
+            let outputText = `Total Nominal Pembayaran PG SOFT Ditemukan:\n\n`;
+            outputText += `==========================================\n`;
+            outputText += `  Total Pembayaran (Win/Payout): ${formattedPayout}\n`;
+            outputText += `  (Dihitung dari ${foundPayouts} baris 'Pembayaran')\n`;
+            outputText += `==========================================\n\n`;
+
+            pgSoftOutput.textContent = outputText;
+            alert(`✅ Total Pembayaran berhasil dihitung: ${formattedPayout}. Sekarang masukkan Nominal Normal Spin untuk menghitung Kemenangan Bersih.`);
+            
+            // Reset output Kemenangan Bersih saat data pembayaran baru diproses
+            netWinOutput.textContent = "Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).";
+        }
+        window.processPgSoftData = processPgSoftData;
+        
+        
+        function calculateNetWin() {
+            const normalSpinInput = document.getElementById('normalSpinInput').value;
+            const netWinOutput = document.getElementById('netWinOutput');
+            
+            if (lastTotalPayout === 0) {
+                netWinOutput.textContent = "⚠️ ERROR: Harap proses data Pembayaran (Win/Payout) terlebih dahulu di kolom atas.";
                 return;
             }
             
-            let html = '<table>';
-            html += '<thead><tr><th>Tanggal</th><th>Jam</th><th>Status Pengecekan</th><th>Detail</th></tr></thead>';
-            html += '<tbody>';
-            
-            history.forEach(entry => {
-                const rowClass = entry.status.startsWith('❌') ? 'class="status-cek"' : 'class="status-normal"';
-                html += `<tr ${rowClass}>`;
-                html += `<td>${entry.date}</td>`;
-                html += `<td>${entry.time}</td>`;
-                html += `<td>${entry.status}</td>`;
-                html += `<td><span class="history-detail-toggle" onclick="toggleDetails(${entry.id})">Lihat Detail (${entry.details.length} IP Unik)</span></td>`;
-                html += '</tr>';
-                
-                // Tambahkan baris tersembunyi untuk detail
-                html += `<tr><td colspan="4" style="padding: 0;">`;
-                html += buildDetailTable(entry.id, entry.details);
-                html += `</td></tr>`;
-            });
-            
-            html += '</tbody></table>';
-            historyDiv.innerHTML = html;
-        }
-
-        function buildDetailTable(id, details) {
-            let detailHtml = `<table id="details-${id}" class="history-detail-table">`;
-            detailHtml += '<thead><tr><th>IP Address</th><th>User ID Count</th><th>Status</th></tr></thead>';
-            detailHtml += '<tbody>';
-            
-            details.forEach(detail => {
-                const isHigh = detail.userCount >= THRESHOLD;
-                const detailRowClass = isHigh ? 'class="high-count-detail"' : '';
-                detailHtml += `<tr ${detailRowClass}>`;
-                detailHtml += `<td>${detail.ipAddress}</td>`;
-                detailHtml += `<td>${detail.userCount}</td>`;
-                detailHtml += `<td>${isHigh ? '❌ CEK IP INI' : '✅ NORMAL'}</td>`;
-                detailHtml += '</tr>';
-            });
-            
-            detailHtml += '</tbody></table>';
-            return detailHtml;
-        }
-        
-        function clearHistory() {
-            if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengecekan IP?")) {
-                localStorage.removeItem(HISTORY_STORAGE_KEY);
-                loadHistory(); // Muat ulang tampilan setelah dihapus
-                alert("Riwayat berhasil dihapus!");
+            if (!normalSpinInput.trim()) {
+                netWinOutput.textContent = "⚠️ ERROR: Harap masukkan Nominal Total Normal Spin.";
+                return;
             }
+
+            // Bersihkan input Normal Spin dari koma (,) dan karakter non-angka lain kecuali titik (.)
+            const cleanNormalSpinString = normalSpinInput.replace(/,/g, ''); 
+            const totalNormalSpin = parseFloat(cleanNormalSpinString);
+
+            if (isNaN(totalNormalSpin) || totalNormalSpin < 0) {
+                netWinOutput.textContent = "⚠️ ERROR: Nominal Total Normal Spin tidak valid. Harap masukkan angka yang benar.";
+                return;
+            }
+            
+            // HITUNG KEMENANGAN BERSIH
+            const totalNetWin = lastTotalPayout - totalNormalSpin;
+            
+            // Formatting helper function
+            const formatter = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 0, 
+                maximumFractionDigits: 0,
+            });
+
+            const formattedPayout = formatter.format(lastTotalPayout);
+            const formattedNormalSpin = formatter.format(totalNormalSpin);
+            const formattedNetWin = formatter.format(totalNetWin);
+            
+            // Tentukan status hasil
+            let status = '';
+            if (totalNetWin > 0) {
+                status = `✅ PROFIT!`;
+            } else if (totalNetWin < 0) {
+                status = `❌ RUGI!`;
+            } else {
+                status = `± IMPAS`;
+            }
+
+            // Output
+            let outputText = `==========================================\n`;
+            outputText += `  Total Pembayaran : ${formattedPayout}\n`;
+            outputText += `  Total Normal Spin: ${formattedNormalSpin}\n`;
+            outputText += `------------------------------------------\n`;
+            outputText += `  KEMENANGAN BERSIH: ${formattedNetWin} (${status})\n`;
+            outputText += `==========================================`;
+            
+            netWinOutput.textContent = outputText;
+            alert(`✅ Kemenangan Bersih berhasil dihitung: ${formattedNetWin}`);
         }
-        
-        // --- 5. SCRIPT PREDIKSI BOLA (Fungsionalitas) ---
+        window.calculateNetWin = calculateNetWin;
+
+
+        // ======================================
+        // E. Logika Prediksi Bola
+        // ======================================
+
         function generateTable() {
             const input = document.getElementById('input').value.trim();
             const lines = input.split('\n').filter(l => l.trim() !== '');
             let outputHtmlContent = '';
-            let leagueName = 'PREDIKSI TANPA JUDUL';
+            let leagueName = 'TIDAK DIKETAHUI';
             let leagueData = {};
-            // Regex diperbarui untuk lebih fleksibel pada spasi
-            const matchRegex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2})\s+WIB\s+(.+?)\s+vs\s+(.+?)\s+([0-9\s:/-]+)$/i; 
+            const matchRegex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2})\s+WIB\s+(.+?)\s+vs\s+(.+?)\s+(\d+\s*[:\-]\s*\d+)$/i;
 
             lines.forEach(line => {
                 const match = line.match(matchRegex);
@@ -480,7 +979,7 @@
                     const time = match[2];
                     const teamA = match[3].trim();
                     const teamB = match[4].trim();
-                    const score = match[5].trim().replace(/\s*:\s*/g, ' - '); // Normalisasi skor ke format "X - Y"
+                    const score = match[5].trim().replace(/\s*:\s*/g, ':').replace(/\s*-\s*/g, ':'); 
                     
                     if (!leagueData[leagueName]) leagueData[leagueName] = [];
                     leagueData[leagueName].push([
@@ -488,13 +987,9 @@
                         `${teamA} vs ${teamB}`,
                         score
                     ]);
-                } else {
-                    // Jika baris tidak cocok dengan format pertandingan, anggap itu nama liga baru
-                    const tempLeagueName = line.trim().toUpperCase();
-                    if (tempLeagueName !== '') {
-                        leagueName = tempLeagueName;
-                        if (!leagueData[leagueName]) leagueData[leagueName] = [];
-                    }
+                } else if (line.trim().length > 0) {
+                    leagueName = line.trim().toUpperCase();
+                    if (!leagueData[leagueName]) leagueData[leagueName] = [];
                 }
             });
 
@@ -515,27 +1010,288 @@
                     `;
                     leagueData[name].forEach(match => {
                         outputHtmlContent += `
-                            <tr>
-                              <td>${match[0]}</td>
-                              <td>${match[1]}</td>
-                              <td>${match[2]}</td>
-                            </tr>
+                              <tr>
+                                <td>${match[0]}</td>
+                                <td>${match[1]}</td>
+                                <td>${match[2]}</td>
+                              </tr>
                         `;
                     });
                     outputHtmlContent += `</tbody></table></div>`;
                 }
             }
-
             document.getElementById('output').innerHTML = outputHtmlContent;
             document.getElementById('htmlOutput').value = outputHtmlContent;
+            alert('Tabel berhasil dibuat dan HTML telah di-generate!');
         }
-
+        window.generateTable = generateTable;
+        
         function copyHTML() {
             const html = document.getElementById('htmlOutput');
+            if (html.value.trim() === '') {
+                alert('Tidak ada HTML untuk disalin. Harap buat tabel terlebih dahulu.');
+                return;
+            }
             html.select();
             document.execCommand('copy');
             alert('Semua HTML berhasil disalin!');
         }
+        window.copyHTML = copyHTML;
+
+
+        // ======================================
+        // F. Logika CRUD User & Approval
+        // ======================================
+        
+        function renderUserTable() {
+            const tbody = document.getElementById('user-table').querySelector('tbody');
+            tbody.innerHTML = ''; 
+
+            users.forEach(user => {
+                const row = tbody.insertRow();
+                
+                let statusText = '';
+                let statusClass = '';
+                let actionButtons = '';
+
+                switch (user.status) {
+                    case 'APPROVED':
+                        statusText = 'APPROVED';
+                        statusClass = 'status-approved';
+                        actionButtons = `<button class="btn-danger" style="width: auto; margin: 2px;" onclick="rejectUser(${user.id})">Tolak</button>`;
+                        break;
+                    case 'PENDING':
+                        statusText = 'PENDING';
+                        statusClass = 'status-pending';
+                        actionButtons = `<button class="btn-warning" style="width: auto; margin: 2px;" onclick="approveUser(${user.id})">Setujui</button>`;
+                        break;
+                    case 'REJECTED':
+                        statusText = 'REJECTED';
+                        statusClass = 'status-rejected';
+                        actionButtons = `<button class="btn-warning" style="width: auto; margin: 2px;" onclick="approveUser(${user.id})">Setujui</button>`;
+                        break;
+                    default:
+                        statusText = 'UNKNOWN';
+                        statusClass = '';
+                        break;
+                }
+
+                // Tombol Edit dan Hapus selalu ada
+                actionButtons += `<button class="btn-primary" style="width: auto; background-color: orange; margin: 2px;" onclick="editUser(${user.id})">Edit</button>
+                                  <button class="btn-danger" style="width: auto; margin: 2px;" onclick="deleteUser(${user.id})">Hapus</button>`;
+
+
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td> 
+                    <td class="${statusClass}">${statusText}</td>
+                    <td>${actionButtons}</td>
+                `;
+            });
+        }
+        
+        function updateUserStatus(id, newStatus) {
+             const user = users.find(u => u.id === id);
+             if (user) {
+                 user.status = newStatus;
+                 alert(`Status user ${user.username} berhasil diubah menjadi ${newStatus}.`);
+                 renderUserTable();
+             }
+        }
+
+        function approveUser(id) {
+             updateUserStatus(id, 'APPROVED');
+        }
+        window.approveUser = approveUser;
+
+        function rejectUser(id) {
+             updateUserStatus(id, 'REJECTED');
+        }
+        window.rejectUser = rejectUser;
+
+        function saveUser(event) {
+            event.preventDefault(); 
+            const id = document.getElementById('user-id').value;
+            const username = document.getElementById('user-username').value;
+            const email = document.getElementById('user-email').value;
+            const password = document.getElementById('user-password').value;
+            const role = document.getElementById('user-role').value;
+
+            if (id) {
+                // UPDATE USER
+                const index = users.findIndex(u => u.id === parseInt(id));
+                if (index !== -1) {
+                    users[index].username = username;
+                    users[index].email = email;
+                    users[index].role = role;
+                    if (password) {
+                        users[index].password = password;
+                    }
+                    alert(`User ${username} berhasil diperbarui.`);
+                }
+            } else {
+                // CREATE NEW USER (VIA MASTER INPUT)
+                if (!password) {
+                     alert('Gagal: Password wajib diisi untuk user baru.');
+                     return;
+                }
+                const newUser = {
+                    id: nextUserId++,
+                    username: username,
+                    email: email || 'default@email.com', 
+                    password: password,
+                    role: role, 
+                    status: 'APPROVED' // Jika dibuat oleh Master, status langsung APPROVED
+                };
+                users.push(newUser);
+                alert(`User ${username} berhasil ditambahkan.`);
+            }
+
+            resetUserForm();
+            renderUserTable();
+        }
+
+        function editUser(id) {
+            const user = users.find(u => u.id === id);
+            if (user) {
+                document.getElementById('user-id').value = user.id;
+                document.getElementById('user-username').value = user.username;
+                document.getElementById('user-email').value = user.email;
+                document.getElementById('user-role').value = user.role;
+                document.getElementById('user-password').value = ''; 
+                document.getElementById('submit-user-btn').textContent = 'Simpan Perubahan';
+                document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+                document.getElementById('user-form').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteUser(id) {
+            const index = users.findIndex(u => u.id === id);
+            if (index !== -1 && confirm(`Apakah Anda yakin ingin menghapus user ${users[index].username}?`)) {
+                if (users[index].role === 'MASTER' && users.filter(u => u.role === 'MASTER').length <= 1) {
+                    alert("Gagal: Harus ada minimal satu user MASTER.");
+                    return;
+                }
+                users.splice(index, 1);
+                alert('User berhasil dihapus.');
+                renderUserTable();
+            }
+        }
+
+        function resetUserForm() {
+            document.getElementById('user-id').value = '';
+            document.getElementById('user-username').value = '';
+            document.getElementById('user-email').value = '';
+            document.getElementById('user-password').value = '';
+            document.getElementById('user-role').value = 'CS';
+            document.getElementById('submit-user-btn').textContent = 'Tambah User';
+            document.getElementById('cancel-edit-btn').style.display = 'none';
+        }
+
+        window.renderUserTable = renderUserTable;
+        window.editUser = editUser;
+        window.deleteUser = deleteUser;
+        window.resetUserForm = resetUserForm;
+
+        // ======================================
+        // G. Logika Login dan Register
+        // ======================================
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (!user) {
+                alert('Login gagal! Username atau Password salah.');
+                return;
+            }
+            
+            // CEK STATUS USER
+            if (user.status === 'PENDING') {
+                alert('Login ditolak! Akun Anda masih berstatus PENDING (Menunggu Persetujuan Master).');
+                return;
+            }
+            if (user.status === 'REJECTED') {
+                 alert('Login ditolak! Akun Anda telah ditolak oleh Master.');
+                 return;
+            }
+            
+            // JIKA STATUS APPROVED
+            currentUsername = user.username;
+            currentUserRole = user.role;
+            alert(`Login berhasil! Selamat datang, ${currentUsername} (${currentUserRole}).`);
+            showView('dashboard-view');
+            
+            // SET DEFAULT VIEW BERDASARKAN ROLE
+            let defaultContentId;
+            let defaultMenuElement;
+
+            if (user.role === 'KAPTEN') {
+                defaultContentId = 'cek-to-crm';
+                defaultMenuElement = document.getElementById('menu-cek-to-crm');
+            } else {
+                defaultContentId = 'cek-ip';
+                defaultMenuElement = document.getElementById('menu-cek-ip');
+            }
+            
+            switchDashboardContent(defaultContentId, defaultMenuElement);
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value; 
+
+            if (users.find(u => u.username === username)) {
+                alert('Pendaftaran gagal. Username sudah digunakan.');
+                return;
+            }
+
+            const newUser = {
+                id: nextUserId++,
+                username: username,
+                email: 'registered_without_email@default.com', // Nilai default 
+                password: password,
+                role: 'CS', 
+                status: 'PENDING' // STATUS DEFAULT BARU UNTUK REGISTER
+            };
+
+            users.push(newUser);
+            
+            alert(`Pendaftaran berhasil! Akun ${username} berhasil dibuat. Status: MENUNGGU ACC...`);
+            document.getElementById('register-form').reset();
+            showView('login-view');
+        }
+
+        // ======================================
+        // H. Inisialisasi Event Listener
+        // ======================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('register-form').addEventListener('submit', handleRegister);
+            document.getElementById('user-form').addEventListener('submit', saveUser);
+            
+            window.resetInput = function() {
+                document.getElementById('logInput').value = '';
+                document.getElementById('results').innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
+            };
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'F5' && document.getElementById('dashboard-view').style.display === 'flex') {
+                    e.preventDefault();
+                    window.resetInput();
+                }
+            });
+            
+            showView('login-view'); 
+        });
+        
     </script>
+
 </body>
 </html>
