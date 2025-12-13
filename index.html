@@ -3,733 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Dashboard Multi-Fungsi</title>
-    
+    <title>Dashboard Multi-Fungsi</title>
     <style>
-        /* ==================== A. CSS DASAR & CONTAINER APP ==================== */
+        /* ==================== A. CSS DASAR & BACKGROUND ==================== */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            /* Background Gambar Naga dari Cek IP (dipertahankan) */
+            background-image: url('https://infomancingduit.com/wp-content/uploads/2024/12/MANCING.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex; /* Menggunakan Flexbox untuk tata letak Sidebar dan Main Content */
             min-height: 100vh;
             color: #444;
         }
-
-        #main-app-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .app-container-small {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
-        
-        .app-container-large {
-            width: 90%;
-            max-width: 1200px; /* Tambah ukuran maksimal */
-            height: 90vh;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            display: flex;
-            overflow: hidden;
-        }
-
-        /* ==================== B. CSS LOGIN & REGISTER ==================== */
-        .login-register-form h1 {
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 24px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 700;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .link-switch {
-            display: block;
-            margin-top: 20px;
-            color: #007bff;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        /* ==================== C. CSS DASHBOARD ==================== */
-        .sidebar {
+        /* ==================== B. CSS SIDEBAR/MENU ==================== */
+        #sidebar {
             width: 250px;
-            background-color: #2c3e50;
-            color: white;
+            background-color: rgba(34, 34, 34, 0.95); /* Sidebar gelap */
             padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #e67e22;
-            font-size: 20px;
-        }
-
-        .menu-item {
-            padding: 15px 20px;
-            cursor: pointer;
-            border-left: 5px solid transparent;
-            transition: background-color 0.2s, border-left-color 0.2s;
-        }
-
-        .menu-item:hover {
-            background-color: #34495e;
-        }
-
-        .menu-item.active {
-            background-color: #34495e;
-            border-left-color: #e67e22;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 30px;
-            overflow-y: auto;
-            background-color: #ecf0f1;
-        }
-
-        .content-panel {
-            display: none;
-        }
-        
-        /* Box info user */
-        #user-info-box {
-            text-align: right;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-bottom: 2px solid #ccc;
-            background-color: #f9f9f9;
-        }
-
-        /* Input dan Output Area */
-        .tool-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-        }
-
-        .tool-section h3 {
-            color: #2c3e50;
-            border-bottom: 2px solid #e67e22;
-            padding-bottom: 10px;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            resize: vertical;
-            font-family: monospace;
-            font-size: 14px;
-        }
-
-        .btn-action {
-            padding: 10px 20px;
-            background-color: #2ecc71;
+            position: fixed; /* Membuat sidebar tetap di tempatnya */
+            height: 100%;
             color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: background-color 0.3s;
+            z-index: 100;
         }
-
-        .btn-action:hover {
-            background-color: #27ae60;
-        }
-
-        #results, #crmOutput, #pgSoftOutput, #netWinOutput, #output {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px dashed #ccc;
-            border-radius: 6px;
-            white-space: pre-wrap;
-            text-align: left;
-            font-family: monospace;
-        }
-
-        /* Tabel CSS */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #e67e22;
-            color: white;
-        }
-        .high-count {
-            background-color: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-        }
-
-        /* CSS Kelola User & Status */
-        .user-management-container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .user-form-area {
-            flex: 1;
-            min-width: 300px;
-        }
-        .user-table-area {
-            flex: 2;
-        }
-
-        .status-approved { color: #28a745; font-weight: bold; }
-        .status-pending { color: #ffc107; font-weight: bold; }
-        .status-rejected { color: #dc3545; font-weight: bold; }
-
-        .btn-danger { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        .btn-warning { background-color: #ffc107; color: #212529; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        .btn-primary { background-color: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-
-        /* History IP */
-        .history-raw-data {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 250px;
+        /* CSS BARU UNTUK LOGO */
+        #sidebar .logo {
+            width: 80%; /* Ukuran logo 80% dari lebar sidebar */
+            height: auto;
+            margin: 0 auto 15px auto; /* Margin atas dan bawah, auto di kiri kanan untuk tengah */
             display: block;
         }
-        
-        /* Aktivitas Global */
-        .activity-log-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 5px;
-            font-size: 14px;
+        #sidebar h2 {
+            text-align: center;
+            color: #FFD700;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #FFD700;
         }
-        .activity-log-item:last-child {
-            border-bottom: none;
+        .menu-item {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
         }
-        .log-time {
-            color: #999;
-            margin-right: 10px;
-            font-size: 12px;
+        .menu-item:hover, .menu-item.active {
+            background-color: #555;
+            color: #FFD700;
         }
-        .log-type-auth { color: #007bff; font-weight: bold; }
-        .log-type-admin { color: #dc3545; font-weight: bold; }
-        .log-type-tool { color: #28a745; font-weight: bold; }
-
+        /* ==================== C. CSS KONTEN UTAMA (Container) ==================== */
+        #main-container {
+            flex-grow: 1;
+            margin-left: 250px; /* Jarak agar konten tidak tertutup sidebar */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .content-panel {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        /* ==================== D. CSS CEK IP ==================== */
+        h1 { color: #222; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        textarea#logInput { width: 100%; height: 200px; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        button#btn-cek-ip { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #e0e6ed; }
+        .high-count { background-color: #ffcccc; font-weight: bold; }
+        #running-text { padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid #ccc; }
+        .glowing-text {
+            font-size: 1.5em; font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px currentColor, 0 0 20px currentColor;
+        }
+        /* ==================== E. CSS PREDIKSI BOLA ==================== */
+        #content-prediksi-bola {
+            background: rgba(0, 0, 0, 0.85); 
+            color: white;
+        }
+        #content-prediksi-bola h2 {
+            color: #FFD700;
+            text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700;
+            margin-bottom: 20px;
+        }
+        #content-prediksi-bola textarea {
+            width: calc(100% - 20px); height: 150px; margin-bottom: 10px; border-radius: 5px; padding: 10px; resize: vertical;
+            background: #222; color: #eee; border: 1px solid #555;
+        }
+        #content-prediksi-bola button {
+            background: #FFD700; color: black; border: none; padding: 10px 25px; margin: 5px; cursor: pointer;
+            font-weight: bold; border-radius: 5px; transition: background 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 5px #FFD700;
+        }
+        #content-prediksi-bola button:hover { background: #FFE066; box-shadow: 0 0 10px #FFD700; }
+        #htmlOutput { height: 300px; background: #111; color: #0f0; font-family: 'Consolas', 'Monaco', monospace; border: 1px solid #333; }
+        .match-block {
+            background: #1a1a1a; color: white; border-radius: 5px; margin: 25px auto; padding: 0; width: 100%; max-width: 700px;
+            overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+        .match-block .league-title {
+            background: #000000; color: #f6ff00; padding: 10px 15px; margin: 0; text-align: center;
+            font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: 0 0 6px #FFFF00;
+        }
+        .match-block thead th {
+            background: #fffb00; color: #000; font-weight: bold; padding: 8px 12px; border: 1px solid #444; text-align: center;
+        }
+        .match-block tbody td {
+            background: #111; color: #fff; padding: 8px 12px; border: 1px solid #444; text-align: center;
+        }
+        /* ==================== F. CSS HISTORY CEK IP (BARU) ==================== */
+        #content-history-cek-ip h2 { color: #007bff; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        #content-history-cek-ip button { 
+            background-color: #dc3545; /* Merah */
+            color: white; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        #content-history-cek-ip button:hover {
+            background-color: #c82333;
+        }
+        #content-history-cek-ip table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        #content-history-cek-ip th, #content-history-cek-ip td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        #content-history-cek-ip th { background-color: #f2f2f2; color: #333; font-weight: bold; }
+        .status-cek { background-color: #ffcccc; font-weight: bold; } /* Merah muda untuk status CEK IP */
+        .status-normal { background-color: #e8f5e9; } /* Hijau muda untuk status NORMAL */
     </style>
 </head>
 <body>
-
-    <div id="main-app-container" class="app-container-small">
+    <div id="sidebar">
+        <img src="https://i.postimg.cc/8PMP5890/logo.png" alt="Logo Mancing Duit" class="logo">
         
-        <div id="login-view" class="login-register-form">
-            <h1>LOGIN DASHBOARD AGENT</h1>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="btn-primary">LOGIN</button>
-            </form>
-            <a href="#" class="link-switch" onclick="showView('register-view'); return false;">Belum punya akun? DAFTAR DISINI</a>
-        </div>
-
-        <div id="register-view" style="display: none;" class="login-register-form">
-            <h1>DAFTAR AKUN BARU</h1>
-            <p style="font-size: 14px; color: #555;">Akun baru akan berstatus PENDING dan harus disetujui oleh Master/Admin.</p>
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="reg-username">Username</label>
-                    <input type="text" id="reg-username" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg-password">Password</label>
-                    <input type="password" id="reg-password" required>
-                </div>
-                <button type="submit" class="btn-primary" style="background-color: #e67e22;">DAFTAR</button>
-            </form>
-            <a href="#" class="link-switch" onclick="showView('login-view'); return false;">Sudah punya akun? KEMBALI KE LOGIN</a>
-        </div>
-
-        <div id="dashboard-view" style="display: none;">
-            
-            <div class="sidebar">
-                <h2>APLIKASI AGENT V1.0</h2>
-                
-                <div id="menu-cek-ip" class="menu-item menu-kapten-hidden active" onclick="switchDashboardContent('cek-ip', this)">CEK IP LOGIN (CS)</div>
-                <div id="menu-cek-to-crm" class="menu-item" onclick="switchDashboardContent('cek-to-crm', this)">CEK TO CRM (Semua)</div>
-                <div id="menu-hitung-pg-soft" class="menu-item" onclick="switchDashboardContent('hitung-pg-soft', this)">HITUNG KEMENANGAN PG SOFT</div>
-                <div id="menu-prediksi-bola" class="menu-item menu-kapten-hidden" onclick="switchDashboardContent('prediksi-bola', this)">PREDIKSI BOLA & TEMPLATE</div>
-                <div id="menu-history-ip" class="menu-item menu-kapten-hidden" onclick="switchDashboardContent('history-ip', this)">RIWAYAT CEK IP</div>
-                
-                <div id="menu-aktivitas-global" class="menu-item" onclick="switchDashboardContent('aktivitas-global', this)">AKTIVITAS GLOBAL (Semua)</div>
-                
-                <div id="menu-kelola-user" class="menu-item menu-master-only" style="margin-top: 20px;" onclick="switchDashboardContent('kelola-user', this)">KELOLA USER & APPROVAL</div>
-                
-                <div class="menu-item" style="margin-top: auto; color: #f1c40f;" onclick="handleLogout()">LOGOUT</div>
-            </div>
-
-            <div class="main-content">
-                
-                <div id="user-info-box"></div> 
-                
-                <div id="content-cek-ip" class="content-panel">
-                    <h2>CEK DUPLIKASI IP LOGIN</h2>
-                    <div class="tool-section">
-                        <h3>1. Tempelkan Data Log IP</h3>
-                        <p>Format data yang diharapkan: `USERID [spasi] [spasi] IP_LOGIN` per baris.</p>
-                        <textarea id="logInput" placeholder="Contoh:&#10;user001  192.168.1.1&#10;user002  192.168.1.2&#10;user003  192.168.1.1"></textarea>
-                        <button class="btn-action" onclick="processData()">Klik Disini: PROSES & CEK IP</button>
-                        <button class="btn-danger" style="margin-left: 10px;" onclick="window.resetInput()">Reset Input</button>
-                    </div>
-                    <div class="tool-section">
-                        <h3>2. Hasil Analisis IP</h3>
-                        <div id="results"><p>Tempelkan data Anda dan tekan "Klik Disini".</p></div>
-                    </div>
-                </div>
-
-                <div id="content-cek-to-crm" class="content-panel" style="display:none;">
-                    <h2>CEK TOTAL TURNOVER (TO) DARI LOG TRANSAKSI</h2>
-                    <div class="tool-section">
-                        <h3>1. Tempelkan Data Log Transaksi</h3>
-                        <p>Tempelkan seluruh log transaksi (terutama yang mengandung kata "PERTARUHAN" / "BET").</p>
-                        <textarea id="toInput" placeholder="Contoh:&#10;[2024-01-15 10:30:00] user001 - Pertaruhan 15000&#10;[2024-01-15 10:31:00] user002 - Pertaruhan 25,000&#10;[2024-01-15 10:32:00] user001 - Spin 5000"></textarea>
-                        <button class="btn-action" onclick="processToData()">Klik Disini: PROSES & HITUNG TO</button>
-                    </div>
-                    <div class="tool-section">
-                        <h3>2. Hasil Perhitungan TO</h3>
-                        <div id="crmOutput"><p>Total TO (Turnover) akan ditampilkan di sini.</p></div>
-                    </div>
-                </div>
-
-                <div id="content-hitung-pg-soft" class="content-panel" style="display:none;">
-                    <h2>HITUNG KEMENANGAN BERSIH PG SOFT</h2>
-                    <div class="tool-section">
-                        <h3>1. Tempelkan Log Pembayaran (Win/Payout)</h3>
-                        <p>Tempelkan hanya baris log yang mengandung kata "PEMBAYARAN".</p>
-                        <textarea id="pgSoftInput" placeholder="Contoh:&#10;[2024-01-15 11:00:00] user001 - Pembayaran 12000 8000000&#10;[2024-01-15 11:05:00] user002 - Pembayaran 25000 5000000"></textarea>
-                        <button class="btn-action" onclick="processPgSoftData()">PROSES & HITUNG TOTAL PEMBAYARAN</button>
-                        <div id="pgSoftOutput" style="margin-top: 15px;"><p>Total Pembayaran (Win/Payout) akan ditampilkan di sini.</p></div>
-                    </div>
-                    <div class="tool-section">
-                        <h3>2. Masukkan Nominal Normal Spin</h3>
-                        <p>Masukkan total nominal Normal Spin (Bet yang kalah/keluar modal) yang relevan.</p>
-                        <input type="text" id="normalSpinInput" placeholder="Contoh: 15000000 (tanpa titik atau koma jika menggunakan koma ribuan)">
-                        <button class="btn-action" onclick="calculateNetWin()" style="background-color: #3498db;">HITUNG KEMENANGAN BERSIH</button>
-                        <div id="netWinOutput" style="margin-top: 15px;"><p>Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).</p></div>
-                    </div>
-                </div>
-
-                <div id="content-prediksi-bola" class="content-panel" style="display:none;">
-                    <h2>BUAT TEMPLATE PREDIKSI BOLA</h2>
-                    <div class="tool-section">
-                        <h3>1. Tempelkan Data Pertandingan</h3>
-                        <p>Format yang diharapkan: `[Nama Liga (Baris Sendiri)]` kemudian `DD/MM HH:MM WIB TimA vs TimB Skor`.</p>
-                        <textarea id="input" placeholder="Contoh:&#10;LIGA PREMIER INGGRIS&#10;01/01 22:30 WIB Manchester City vs Arsenal 3:1&#10;02/01 01:00 WIB Liverpool vs Chelsea 2-2&#10;LA LIGA SPANYOL&#10;02/01 22:30 WIB Real Madrid vs Barcelona 2:1"></textarea>
-                        <button class="btn-action" onclick="generateTable()">PROSES & BUAT TABEL</button>
-                    </div>
-                    <div class="tool-section">
-                        <h3>2. Preview Hasil Tabel</h3>
-                        <div id="output"><p>Tabel pertandingan akan tampil di sini.</p></div>
-                    </div>
-                    <div class="tool-section">
-                        <h3>3. Salin HTML untuk Dipublikasikan</h3>
-                        <textarea id="htmlOutput" style="min-height: 100px;" placeholder="HTML yang dapat disalin akan muncul di sini."></textarea>
-                        <button class="btn-action" onclick="copyHTML()" style="background-color: #9b59b6;">SALIN SEMUA HTML</button>
-                    </div>
-                </div>
-
-                <div id="content-history-ip" class="content-panel" style="display: none;">
-                    <h2>RIWAYAT CEK IP</h2>
-                    <div class="tool-section">
-                        <h3>Log Pengecekan IP (Hanya Perangkat Ini)</h3>
-                        <p>⚠️ Catatan: Riwayat IP ini hanya tersimpan di browser Anda (Local Storage).</p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Waktu</th>
-                                    <th>User</th>
-                                    <th>IP Unik</th>
-                                    <th>IP High Risk</th>
-                                    <th>Data Singkat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="history-table">
-                                </tbody>
-                        </table>
-                        <button class="btn-danger" style="margin-top: 15px;" onclick="clearHistory()">HAPUS SEMUA RIWAYAT</button>
-                    </div>
-                </div>
-                
-                <div id="content-aktivitas-global" class="content-panel" style="display: none;">
-                    <h2>LOG AKTIVITAS GLOBAL (Simulasi Sinkronisasi Server)</h2>
-                    <div class="tool-section">
-                        <h3>Riwayat Tindakan Semua User</h3>
-                        <p>⚠️ **PENTING:** Untuk membuat ini bekerja lintas perangkat, Anda harus menghubungkan fungsi ini ke server/database nyata. Saat ini, hanya disimulasikan secara lokal.</p>
-                        <div id="global-activity-log" style="background-color: white; border: 1px solid #ddd; max-height: 60vh; overflow-y: scroll;">
-                            </div>
-                        <button class="btn-danger" style="margin-top: 15px;" onclick="clearGlobalActivity()">HAPUS SEMUA LOG AKTIVITAS (Simulasi)</button>
-                    </div>
-                </div>
-
-                <div id="content-kelola-user" class="content-panel" style="display: none;">
-                    <h2>KELOLA USER & APPROVAL</h2>
-                    <div class="user-management-container">
-                        
-                        <div class="tool-section user-form-area">
-                            <h3>Tambah / Edit User</h3>
-                            <form id="user-form">
-                                <input type="hidden" id="user-id">
-                                <div class="form-group">
-                                    <label for="user-username">Username</label>
-                                    <input type="text" id="user-username" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="user-email">Email (Opsional)</label>
-                                    <input type="email" id="user-email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="user-password">Password (Isi hanya jika membuat baru atau mengubah)</label>
-                                    <input type="password" id="user-password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="user-role">Role</label>
-                                    <select id="user-role">
-                                        <option value="MASTER">MASTER</option>
-                                        <option value="CS">CS</option>
-                                        <option value="KAPTEN">KAPTEN</option>
-                                    </select>
-                                </div>
-                                <button type="submit" id="submit-user-btn" class="btn-primary">Tambah User</button>
-                                <button type="button" id="cancel-edit-btn" class="btn-danger" style="display: none; width: auto; margin-top: 10px;" onclick="resetUserForm()">Batal Edit</button>
-                            </form>
-                        </div>
-
-                        <div class="tool-section user-table-area">
-                            <h3>Daftar Akun Agent</h3>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tbody id="user-table">
-                                        </tbody>
-                                </table>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
+        <a href="#" class="menu-item active" data-content="cek-ip" id="menu-cek-ip">🔍 Cek IP</a>
+        <a href="#" class="menu-item" data-content="history-cek-ip" id="menu-history-cek-ip">📜 HISTORY CEK IP</a>
+        <a href="#" class="menu-item" data-content="prediksi-bola" id="menu-prediksi-bola">⚽ PREDIKSI BOLA</a>
     </div>
-
+    <div id="main-container">
+        <div id="content-cek-ip" class="content-panel">
+            <div id="running-text">
+                <marquee behavior="scroll" direction="left" scrollamount="10">
+                    <span class="glowing-text">
+                        <span style="color: #FF0000;">C</span> <span style="color: #FF00FF;">E</span> <span style="color: #00FFFF;">K</span> <span style="color: #00FF00;">&nbsp;IP</span> <span style="color: #0000FF;">&nbsp;S</span> <span style="color: #4B0082;">E</span> <span style="color: #FF0000;">T</span> <span style="color: #FF00FF;">I</span> <span style="color: #00FFFF;">A</span> <span style="color: #00FF00;">P</span> <span style="color: #0000FF;">&nbsp;1</span> <span style="color: #4B0082;">&nbsp;J</span> <span style="color: #FF0000;">A</span> <span style="color: #FF00FF;">M</span> <span style="color: #00FFFF;">&nbsp;S</span> <span style="color: #00FF00;">E</span> <span style="color: #0000FF;">K</span> <span style="color: #4B0082;">A</span> <span style="color: #FF0000;">L</span> <span style="color: #FF00FF;">I</span> </span>
+                </marquee>
+            </div>
+            <h1>🔍 Dashboard Analisis IP Login</h1>
+            <p>✅Tempelkan data Anda di bawah ini. Tekan F5 untuk membersihkan input.</p>
+            <textarea id="logInput" placeholder="Tempelkan data Anda di sini..."></textarea>
+            <button onclick="processData()" id="btn-cek-ip">Klik Disini</button>
+            <div id="results">
+                <p>Tempelkan data Anda dan tekan "Klik Disini".</p>
+            </div>
+        </div>
+        
+        <div id="content-history-cek-ip" class="content-panel" style="display: none;">
+            <h2>📜 Riwayat Pengecekan IP</h2>
+            <button onclick="clearHistory()">Hapus Semua Riwayat</button>
+            <p style="font-style: italic; color: #555;">(Data riwayat ini hanya mencatat Tanggal, Jam, dan Status, dan tersimpan di browser Anda.)</p>
+            <div id="history-results">
+                <p>Belum ada riwayat pengecekan IP yang tersimpan.</p>
+            </div>
+        </div>
+        
+        <div id="content-prediksi-bola" class="content-panel" style="display: none;">
+            <h2>PREDIKSI BOLA</h2>
+            <textarea id="input" placeholder="Masukkan pertandingan di sini..."></textarea><br>
+            <button onclick="generateTable()">GENERATE TABEL</button>
+            <button onclick="copyHTML()">COPY SEMUA HTML</button>
+            <div id="output"></div>
+            <h3 class="hasil-html">📋 Hasil HTML Disini:</h3>
+            <textarea id="htmlOutput" readonly></textarea>
+        </div>
+    </div>
     <script>
-        const mainAppContainer = document.getElementById('main-app-container');
-        const THRESHOLD = 3; 
+        // Key untuk menyimpan riwayat di localStorage
+        const HISTORY_STORAGE_KEY = 'ipCheckHistory';
         
-        let currentUsername = null;
-        let currentUserRole = null; 
-        let lastTotalPayout = 0; 
-        
-        // ======================================
-        // DATA GLOBAL (SIMULASI DATABASE SERVER)
-        // PENTING: Untuk benar-benar sinkron, ini harus diganti dengan API/Database
-        // ======================================
-        let globalState = JSON.parse(localStorage.getItem('DASHBOARD_GLOBAL_STATE')) || {
-            users: [
-                { id: 1, username: 'cg88', email: 'master@example.com', password: 'asd123', role: 'MASTER', status: 'APPROVED' },
-                { id: 2, username: 'admin', email: 'admin@example.com', password: 'password123', role: 'MASTER', status: 'APPROVED' },
-                { id: 3, username: 'testuser', email: 'test@example.com', password: 'password123', role: 'CS', status: 'APPROVED' },
-                { id: 4, username: 'kapten', email: 'kapten@example.com', password: 'password123', role: 'KAPTEN', status: 'APPROVED' }
-            ],
-            nextUserId: 5,
-            activities: [] // Log aktivitas global
-        };
-
-        // Simpan data global ke localStorage agar simulasi ini setidaknya persistent per browser
-        // HANYA UNTUK SIMULASI LOKAL. JANGAN GUNAKAN INI UNTUK LINGKUNGAN PRODUKSI NYATA.
-        function saveGlobalState() {
-             localStorage.setItem('DASHBOARD_GLOBAL_STATE', JSON.stringify(globalState));
-        }
-
-        // ======================================
-        // FUNGSI SIMULASI API (Akan diganti dengan Fetch() ke Server nyata)
-        // ======================================
-
-        async function fetchUsersFromAPI() {
-            // Placeholder: Di server nyata, ini akan menjadi `fetch('/api/users')`
-            return globalState.users;
-        }
-
-        async function saveUserToAPI(user, action) {
-            // Placeholder: Di server nyata, ini akan menjadi `fetch('/api/users/save', { method: 'POST', body: JSON.stringify(user) })`
-            if (action === 'CREATE') {
-                user.id = globalState.nextUserId++;
-                globalState.users.push(user);
-                logActivity(`Akun baru (${user.username}) DIDAFTARKAN. Status: PENDING.`, 'AUTH');
-            } else if (action === 'UPDATE') {
-                 const index = globalState.users.findIndex(u => u.id === user.id);
-                 if (index !== -1) {
-                     Object.assign(globalState.users[index], user);
-                 }
-                 logActivity(`Master mengubah data user ${user.username}.`, 'ADMIN');
-            } else if (action === 'DELETE') {
-                 const index = globalState.users.findIndex(u => u.id === user.id);
-                 if (index !== -1) {
-                     globalState.users.splice(index, 1);
-                 }
-                 logActivity(`Master MENGHAPUS user ${user.username}.`, 'ADMIN');
-            }
-            saveGlobalState();
-            return { success: true, user: user };
-        }
-        
-        async function approveUserInAPI(id, newStatus) {
-             const user = globalState.users.find(u => u.id === id);
-             if (user) {
-                 user.status = newStatus;
-                 logActivity(`Master ${currentUsername} MENGUBAH status user ${user.username} menjadi ${newStatus}.`, 'ADMIN');
-                 saveGlobalState();
-                 return { success: true, user: user };
-             }
-             return { success: false };
-        }
-        
-        async function fetchActivityFromAPI() {
-            // Placeholder: Di server nyata, ini akan menjadi `fetch('/api/activities')`
-            return globalState.activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        }
-        
-        function formatHistoryTimestamp(dateString) {
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) { return dateString; }
-            
-            const dateOptions = { day: '2-digit', month: 'long', year: 'numeric' };
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
-            const formattedTime = `${hours}:${minutes}:${seconds}`;
-            
-            return `${formattedDate}, ${formattedTime}`; 
-        }
-
-        function logActivity(message, type) {
-            const newEntry = {
-                timestamp: new Date().toISOString(),
-                username: currentUsername || 'UNKNOWN',
-                message: message,
-                type: type // 'AUTH', 'ADMIN', 'TOOL'
-            };
-            globalState.activities.unshift(newEntry);
-            saveGlobalState();
-        }
-        window.logActivity = logActivity;
-
-        // ======================================
-        // A. Fungsi Navigasi & Utility
-        // ======================================
-
-        function showView(viewId) {
-            document.getElementById('login-view').style.display = 'none';
-            document.getElementById('register-view').style.display = 'none';
-            document.getElementById('dashboard-view').style.display = 'none';
-
-            if (viewId === 'dashboard-view') {
-                mainAppContainer.className = 'app-container-large';
-                updateSidebarVisibility(currentUserRole); 
-                document.getElementById(viewId).style.display = 'flex'; 
-            } else {
-                mainAppContainer.className = 'app-container-small';
-                document.getElementById(viewId).style.display = 'block'; 
-            }
-        }
-        
-        function updateSidebarVisibility(role) {
-            const masterMenus = document.querySelectorAll('.menu-master-only');
-            masterMenus.forEach(menu => {
-                menu.style.display = (role === 'MASTER') ? 'block' : 'none';
-            });
-
-            const kaptenHiddenMenus = document.querySelectorAll('.menu-kapten-hidden');
-            const kaptenHiddenVisibility = (role === 'KAPTEN') ? 'none' : 'block'; 
-            kaptenHiddenMenus.forEach(menu => {
-                menu.style.display = kaptenHiddenVisibility;
-            });
-            
-            if (role === 'KAPTEN') {
-                const activeMenu = document.querySelector('.menu-item.active');
-                if (activeMenu && (activeMenu.id === 'menu-cek-ip' || activeMenu.id === 'menu-prediksi-bola')) {
-                     const defaultMenu = document.getElementById('menu-cek-to-crm');
-                     if (defaultMenu) {
-                         switchDashboardContent('cek-to-crm', defaultMenu);
-                     }
+        // --- 1. SCRIPT PENGATUR MENU (CONTENT SWITCHING) ---
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hapus kelas 'active' dari semua menu
+                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                
+                // Tambahkan kelas 'active' ke menu yang diklik
+                this.classList.add('active');
+                // Sembunyikan semua panel konten
+                document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
+                
+                // Tampilkan panel konten yang sesuai
+                const targetId = 'content-' + this.getAttribute('data-content');
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.style.display = 'block';
                 }
-            }
-        }
-
-        function updateUserInfoBox(username) {
-            const box = document.getElementById('user-info-box');
-            if (box && username) {
-                box.innerHTML = `Anda login sebagai: <strong><span style="color: #007bff;">${username}</span></strong>`;
-            } else if (box) {
-                box.innerHTML = ''; 
-            }
-        }
-
-        function switchDashboardContent(contentId, clickedElement) {
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            if (clickedElement) clickedElement.classList.add('active');
-
-            document.querySelectorAll('.content-panel').forEach(p => p.style.display = 'none');
-            const targetId = 'content-' + contentId;
-            const targetPanel = document.getElementById(targetId);
-            if (targetPanel) {
-                targetPanel.style.display = 'block';
-            }
-
-            if (contentId === 'cek-ip') {
-                 updateUserInfoBox(currentUsername); 
-            } else {
-                 updateUserInfoBox(null); 
-            }
-            
-            if (contentId === 'kelola-user') {
-                renderUserTable();
-            } else if (contentId === 'history-ip') { 
-                renderHistoryTable();
-            } else if (contentId === 'aktivitas-global') {
-                 renderGlobalActivity(); // <-- PANGGIL FUNGSI BARU
-            }
-        }
-
-        function handleLogout() {
-            logActivity(`${currentUsername} telah LOGOUT.`, 'AUTH');
-            alert('Anda telah berhasil keluar (logout).');
-            currentUsername = null; 
-            currentUserRole = null;
-            
-            localStorage.removeItem('app_username');
-            localStorage.removeItem('app_role');
-            
-            showView('login-view');
-            window.resetInput(); 
-        }
-        window.handleLogout = handleLogout;
-
-
-        // ======================================
-        // B. Logika Cek IP & History IP
-        // ======================================
+                
+                // PANGGIL FUNGSI UNTUK MEMUAT RIWAYAT JIKA MENU HISTORY DIPILIH
+                if (this.getAttribute('data-content') === 'history-cek-ip') {
+                    loadHistory();
+                }
+            });
+        });
         
-        async function processData() {
+        // --- 2. SCRIPT RESET INPUT KETIKA REFRESH ---
+        window.onload = function() {
+            // Reset input CEK IP
+            document.getElementById('logInput').value = '';
+            document.getElementById('results').innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
+            
+            // Reset input PREDIKSI BOLA
+            document.getElementById('input').value = ''; 
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('htmlOutput').value = '';
+        };
+        
+        // --- 3. SCRIPT CEK IP (Fungsionalitas) ---
+        const THRESHOLD = 3;
+        function processData() {
             const rawData = document.getElementById('logInput').value;
+            
             if (!rawData.trim()) {
                 document.getElementById('results').innerHTML = "<p>⚠️ Harap tempelkan data terlebih dahulu.</p>";
                 return;
             }
+            
             const logData = parseRawData(rawData);
             const analysisResults = analyzeLoginData(logData);
             renderResults(analysisResults);
             
-            saveHistory(rawData, analysisResults);
-            logActivity(`Melakukan pengecekan IP. Ditemukan ${analysisResults.length} IP unik.`, 'TOOL');
+            // Tentukan status riwayat
+            const highCountIPs = analysisResults.filter(item => item.userCount >= THRESHOLD);
+            const status = highCountIPs.length > 0 
+                ? `❌ Ditemukan ${highCountIPs.length} IP di atas batas (${THRESHOLD} User ID)`
+                : '✅ Normal';
+            
+            // Panggil fungsi untuk menyimpan riwayat (Hanya TANGGAL, JAM, STATUS)
+            saveHistory(status); 
         }
-        window.processData = processData;
         
         function parseRawData(rawData) {
             const lines = rawData.trim().split('\n');
             const parsedData = [];
             lines.forEach(line => {
                 const parts = line.trim().split(/\s{2,}|\t/);
+                // Kita asumsikan formatnya User ID - Sesuatu - IP Address
                 if (parts.length >= 3) {
                     const userId = parts[0].trim();
-                    let ipLogin = parts[2].trim(); 
-                    if (userId && ipLogin && ipLogin.match(/^(\d{1,3}\.){3}\d{1,3}$/)) {
+                    const ipLogin = parts[2].trim();
+                    if (userId && ipLogin) {
+                        parsedData.push({ userId, ipLogin });
+                    }
+                } else if (parts.length >= 2 && parts[1].includes('.')) {
+                    // Coba deteksi jika hanya ada 2 kolom dan kolom kedua adalah IP
+                    const userId = parts[0].trim();
+                    const ipLogin = parts[1].trim();
+                     if (userId && ipLogin) {
                         parsedData.push({ userId, ipLogin });
                     }
                 }
             });
             return parsedData;
         }
-
+        
         function analyzeLoginData(data) {
             const ipCounts = {};
             data.forEach(log => {
@@ -743,15 +291,15 @@
             resultsArray.sort((a, b) => b.userCount - a.userCount);
             return resultsArray;
         }
-
+        
         function renderResults(results) {
             const resultsDiv = document.getElementById('results');
             if (results.length === 0) {
                 resultsDiv.innerHTML = "<p>Tidak ada data valid yang ditemukan setelah diproses. Harap cek kembali format data yang ditempelkan.</p>";
                 return;
             }
-            let html = `<h2>Hasil Analisis: ${results.length} IP Unik}</h2>`;
-            html += `<p>Data diurutkan dari IP dengan User ID terbanyak. Status "CEK IP INI" jika hitungan >= **${THRESHOLD}**.</p>`;
+            let html = `<h2>Hasil Analisis: ${results.length} IP Unik</h2>`;
+            html += `<p>Data diurutkan dari IP dengan User ID terbanyak. Status "CEK IP INI" jika hitungan >= ${THRESHOLD}.</p>`;
             html += '<table>';
             html += '<thead><tr><th>IP Address</th><th>Total User ID Unik</th><th>Status</th></tr></thead>';
             html += '<tbody>';
@@ -768,608 +316,156 @@
             resultsDiv.innerHTML = html;
         }
         
-        // --- LOGIKA HISTORY CEK IP (TETAP LOCAL STORAGE UNTUK PERANGKAT INI) ---
+        // --- 4. SCRIPT RIWAYAT (Fungsionalitas History - HANYA TANGGAL/JAM/STATUS) ---
         
-        function saveHistory(rawData, analysisResults) {
-            const historyKey = 'ip_check_history';
-            let history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-
-            const highCountIP = analysisResults.find(r => r.userCount >= THRESHOLD);
-            const highIpInfo = highCountIP 
-                ? `${highCountIP.ipAddress} (${highCountIP.userCount} user)` 
-                : 'T/A';
-
+        function getHistory() {
+            try {
+                const historyJson = localStorage.getItem(HISTORY_STORAGE_KEY);
+                return historyJson ? JSON.parse(historyJson) : [];
+            } catch (e) {
+                console.error("Gagal memuat riwayat dari localStorage:", e);
+                return [];
+            }
+        }
+        
+        function saveHistory(status) {
+            const now = new Date();
+            // Format tanggal dan jam lokal sesuai permintaan
+            const date = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }); 
+            const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); 
+            
             const newEntry = {
-                timestamp: new Date().toISOString(), 
-                username: currentUsername || 'UNKNOWN',
-                uniqueIpCount: analysisResults.length,
-                highIp: highIpInfo,
-                rawData: rawData.substring(0, 200) + (rawData.length > 200 ? '...' : '')
+                date: date,
+                time: time,
+                status: status
             };
-
-            history.unshift(newEntry); 
-
-            if (history.length > 100) {
-                history = history.slice(0, 100);
-            }
-
-            localStorage.setItem(historyKey, JSON.stringify(history));
-        }
-
-        function renderHistoryTable() {
-            const historyKey = 'ip_check_history';
-            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-            const tbody = document.getElementById('history-table').querySelector('tbody');
             
-            tbody.innerHTML = ''; 
-
+            const history = getHistory();
+            // Tambahkan entri baru di awal (paling baru di atas)
+            history.unshift(newEntry);
+            
+            // Batasi jumlah entri
+            const MAX_HISTORY = 50; 
+            if (history.length > MAX_HISTORY) {
+                history.length = MAX_HISTORY;
+            }
+            
+            try {
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
+            } catch (e) {
+                alert("Peringatan: Gagal menyimpan riwayat. Ruang penyimpanan browser mungkin penuh.");
+                console.error("Gagal menyimpan riwayat:", e);
+            }
+        }
+        
+        function loadHistory() {
+            const history = getHistory();
+            const historyDiv = document.getElementById('history-results');
+            
             if (history.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada riwayat pengecekan IP yang tercatat di perangkat ini.</td></tr>';
+                historyDiv.innerHTML = '<p>Belum ada riwayat pengecekan IP yang tersimpan.</p>';
                 return;
             }
-
-            history.forEach((entry, index) => {
-                const formattedTime = formatHistoryTimestamp(entry.timestamp); 
-                
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${formattedTime}</td>
-                    <td>${entry.username}</td>
-                    <td>${entry.uniqueIpCount}</td>
-                    <td>${entry.highIp}</td>
-                    <td><div class="history-raw-data">${entry.rawData}</div></td>
-                `;
+            
+            let html = '<table>';
+            html += '<thead><tr><th>Tanggal</th><th>Jam</th><th>Status Pengecekan</th></tr></thead>';
+            html += '<tbody>';
+            
+            history.forEach(entry => {
+                // Tentukan kelas berdasarkan status
+                const rowClass = entry.status.startsWith('❌') ? 'class="status-cek"' : 'class="status-normal"';
+                html += `<tr ${rowClass}>`;
+                html += `<td>${entry.date}</td>`;
+                html += `<td>${entry.time}</td>`;
+                html += `<td>${entry.status}</td>`;
+                html += '</tr>';
             });
+            
+            html += '</tbody></table>';
+            historyDiv.innerHTML = html;
         }
-        window.renderHistoryTable = renderHistoryTable;
-
+        
         function clearHistory() {
-            if (confirm("ANDA YAKIN INGIN MENGHAPUS SEMUA RIWAYAT CEK IP LOKAL?")) {
-                const historyKey = 'ip_check_history';
-                localStorage.removeItem(historyKey);
-                alert("Semua riwayat pengecekan IP lokal telah berhasil dihapus.");
-                renderHistoryTable(); 
+             if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengecekan IP?")) {
+                localStorage.removeItem(HISTORY_STORAGE_KEY);
+                loadHistory(); // Muat ulang tampilan setelah dihapus
+                alert("Riwayat berhasil dihapus!");
             }
         }
-        window.clearHistory = clearHistory;
-
-        // ======================================
-        // C. Logika CEK TO CRM 
-        // ======================================
         
-        function processToData() {
-            const rawData = document.getElementById('toInput').value;
-            const lines = rawData.toUpperCase().trim().split('\n');
-            const crmOutput = document.getElementById('crmOutput');
-
-            if (lines.length === 0 || rawData.trim().length === 0) {
-                crmOutput.textContent = "⚠️ Masukkan data log transaksi terlebih dahulu untuk diproses.";
-                return;
-            }
-
-            let totalTO = 0;
-            let foundLines = 0;
-
-            const betRegex = /PERTARUHAN\s*([\d\.,]+)/g; 
-            const singleStringData = lines.join(' ');
-            
-            let match;
-            while ((match = betRegex.exec(singleStringData)) !== null) {
-                let amountString = match[1];
-                let cleanAmountString = amountString.replace(/,/g, ''); 
-                let amount = parseFloat(cleanAmountString);
-
-                if (!isNaN(amount) && amount > 0) {
-                    totalTO += amount;
-                    foundLines++;
-                }
-            }
-            
-            const formatter = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 0, 
-                maximumFractionDigits: 0,
-            });
-
-            const formattedTotalTO = formatter.format(totalTO); 
-            
-            let outputText = `Total Nominal Pertaruhan (TO) Ditemukan:\n\n`;
-            outputText += `==========================================\n`;
-            outputText += `  Total TO (Nominal): ${formattedTotalTO}\n`;
-            outputText += `  (Dihitung dari ${foundLines} transaksi 'Pertaruhan')\n`;
-            outputText += `==========================================`;
-
-            crmOutput.textContent = outputText;
-            logActivity(`Menghitung TO sebesar ${formattedTotalTO} dari ${foundLines} transaksi.`, 'TOOL');
-            alert(`✅ Total TO berhasil dihitung: ${formattedTotalTO}`);
-        }
-        window.processToData = processToData;
-
-
-        // ======================================
-        // D. Logika HITUNG KEMENANGAN PG SOFT 
-        // ======================================
-        
-        function processPgSoftData() {
-            const rawData = document.getElementById('pgSoftInput').value;
-            const lines = rawData.toUpperCase().trim().split('\n').filter(l => l.trim().length > 0); 
-            const pgSoftOutput = document.getElementById('pgSoftOutput');
-            const netWinOutput = document.getElementById('netWinOutput');
-
-
-            if (lines.length === 0) {
-                pgSoftOutput.textContent = "⚠️ Masukkan data log transaksi PG Soft terlebih dahulu untuk diproses.";
-                netWinOutput.textContent = "Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).";
-                lastTotalPayout = 0;
-                return;
-            }
-
-            let totalPayout = 0;
-            let foundPayouts = 0;
-            
-            const payoutRegex = /PEMBAYARAN[\d\.,]+\s*([\d\.,]+)/; 
+        // --- 5. SCRIPT PREDIKSI BOLA (Fungsionalitas) ---
+        function generateTable() {
+            const input = document.getElementById('input').value.trim();
+            const lines = input.split('\n').filter(l => l.trim() !== '');
+            let outputHtmlContent = '';
+            let leagueName = 'PREDIKSI TANPA JUDUL';
+            let leagueData = {};
+            // Regex diperbarui untuk lebih fleksibel pada spasi
+            const matchRegex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2})\s+WIB\s+(.+?)\s+vs\s+(.+?)\s+([0-9\s:/-]+)$/i; 
 
             lines.forEach(line => {
-                if (line.includes('PEMBAYARAN')) {
-                    const match = line.match(payoutRegex);
+                const match = line.match(matchRegex);
+                if (match) {
+                    const date = match[1];
+                    const time = match[2];
+                    const teamA = match[3].trim();
+                    const teamB = match[4].trim();
+                    const score = match[5].trim().replace(/\s*:\s*/g, ' - '); // Normalisasi skor ke format "X - Y"
                     
-                    if (match && match[1]) {
-                        let amountString = match[1];
-                        let cleanAmountString = amountString.replace(/,/g, ''); 
-                        let amount = parseFloat(cleanAmountString);
-
-                        if (!isNaN(amount) && amount > 0) {
-                            totalPayout += amount;
-                            foundPayouts++;
-                        }
-                    } else {
-                        const parts = line.split(/[^\d\.,]+/g).filter(p => p.trim().length > 0); 
-                        if (parts.length >= 2) {
-                            let nominalIndex = parts.length - 2; 
-                            let amountString = parts[nominalIndex];
-                            let cleanAmountString = amountString.replace(/,/g, ''); 
-                            let amount = parseFloat(cleanAmountString);
-                            
-                            if (!isNaN(amount) && amount > 0) {
-                                totalPayout += amount;
-                                foundPayouts++;
-                            }
-                        }
+                    if (!leagueData[leagueName]) leagueData[leagueName] = [];
+                    leagueData[leagueName].push([
+                        `${date} ${time} WIB`,
+                        `${teamA} vs ${teamB}`,
+                        score
+                    ]);
+                } else {
+                    // Jika baris tidak cocok dengan format pertandingan, anggap itu nama liga baru
+                    const tempLeagueName = line.trim().toUpperCase();
+                    if (tempLeagueName !== '') {
+                        leagueName = tempLeagueName;
+                        if (!leagueData[leagueName]) leagueData[leagueName] = [];
                     }
                 }
             });
-            
-            lastTotalPayout = totalPayout; 
-            
-            const formatter = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 0, 
-                maximumFractionDigits: 0,
-            });
 
-            const formattedPayout = formatter.format(totalPayout);
-            
-            let outputText = `Total Nominal Pembayaran PG SOFT Ditemukan:\n\n`;
-            outputText += `==========================================\n`;
-            outputText += `  Total Pembayaran (Win/Payout): ${formattedPayout}\n`;
-            outputText += `  (Dihitung dari ${foundPayouts} baris 'Pembayaran')\n`;
-            outputText += `==========================================`;
-
-            pgSoftOutput.textContent = outputText;
-            logActivity(`Menghitung Payout PG Soft: ${formattedPayout} dari ${foundPayouts} baris.`, 'TOOL');
-            alert(`✅ Total Pembayaran berhasil dihitung: ${formattedPayout}. Sekarang masukkan Nominal Normal Spin untuk menghitung Kemenangan Bersih.`);
-            
-            netWinOutput.textContent = "Hasil Kemenangan Bersih akan tampil di sini (Pembayaran - Normal Spin).";
-        }
-        window.processPgSoftData = processPgSoftData;
-        
-        
-        function calculateNetWin() {
-            const normalSpinInput = document.getElementById('normalSpinInput').value;
-            const netWinOutput = document.getElementById('netWinOutput');
-            
-            if (lastTotalPayout === 0) {
-                netWinOutput.textContent = "⚠️ ERROR: Harap proses data Pembayaran (Win/Payout) terlebih dahulu di kolom atas.";
-                return;
-            }
-            
-            if (!normalSpinInput.trim()) {
-                netWinOutput.textContent = "⚠️ ERROR: Harap masukkan Nominal Total Normal Spin.";
-                return;
-            }
-
-            const cleanNormalSpinString = normalSpinInput.replace(/,/g, ''); 
-            const totalNormalSpin = parseFloat(cleanNormalSpinString);
-
-            if (isNaN(totalNormalSpin) || totalNormalSpin < 0) {
-                netWinOutput.textContent = "⚠️ ERROR: Nominal Total Normal Spin tidak valid. Harap masukkan angka yang benar.";
-                return;
-            }
-            
-            const totalNetWin = lastTotalPayout - totalNormalSpin;
-            
-            const formatter = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 0, 
-                maximumFractionDigits: 0,
-            });
-
-            const formattedNetWin = formatter.format(totalNetWin);
-            
-            let status = '';
-            if (totalNetWin > 0) {
-                status = `✅ PROFIT!`;
-            } else if (totalNetWin < 0) {
-                status = `❌ RUGI!`;
-            } else {
-                status = `± IMPAS`;
-            }
-
-            const formattedPayout = formatter.format(lastTotalPayout);
-            const formattedNormalSpin = formatter.format(totalNormalSpin);
-
-            let outputText = `==========================================\n`;
-            outputText += `  Total Pembayaran : ${formattedPayout}\n`;
-            outputText += `  Total Normal Spin: ${formattedNormalSpin}\n`;
-            outputText += `------------------------------------------\n`;
-            outputText += `  KEMENANGAN BERSIH: ${formattedNetWin} (${status})\n`;
-            outputText += `==========================================`;
-            
-            netWinOutput.textContent = outputText;
-            logActivity(`Menghitung Kemenangan Bersih PG Soft: ${formattedNetWin} (${status}).`, 'TOOL');
-            alert(`✅ Kemenangan Bersih berhasil dihitung: ${formattedNetWin}`);
-        }
-        window.calculateNetWin = calculateNetWin;
-
-
-        // ======================================
-        // E. Logika Log Aktivitas Global (BARU)
-        // ======================================
-        
-        async function renderGlobalActivity() {
-             const activityLog = document.getElementById('global-activity-log');
-             activityLog.innerHTML = 'Memuat log aktivitas (Simulasi dari "Database")...';
-             
-             const activities = await fetchActivityFromAPI();
-             activityLog.innerHTML = ''; 
-
-             if (activities.length === 0) {
-                 activityLog.innerHTML = '<p style="padding: 15px; text-align: center;">Belum ada aktivitas yang tercatat.</p>';
-                 return;
-             }
-
-             activities.forEach(activity => {
-                 let typeClass = '';
-                 switch(activity.type) {
-                     case 'AUTH': typeClass = 'log-type-auth'; break;
-                     case 'ADMIN': typeClass = 'log-type-admin'; break;
-                     case 'TOOL': typeClass = 'log-type-tool'; break;
-                 }
-                 
-                 const formattedTime = formatHistoryTimestamp(activity.timestamp); 
-
-                 const item = document.createElement('div');
-                 item.className = 'activity-log-item';
-                 item.innerHTML = `
-                     <span class="log-time">${formattedTime}</span>
-                     <span class="${typeClass}">[${activity.username}]</span>: ${activity.message}
-                 `;
-                 activityLog.appendChild(item);
-             });
-        }
-        window.renderGlobalActivity = renderGlobalActivity;
-        
-        function clearGlobalActivity() {
-            if (confirm("ANDA YAKIN INGIN MENGHAPUS SEMUA LOG AKTIVITAS GLOBAL? (Simulasi)")) {
-                globalState.activities = [];
-                saveGlobalState();
-                alert("Semua log aktivitas global telah berhasil dihapus.");
-                renderGlobalActivity();
-            }
-        }
-        window.clearGlobalActivity = clearGlobalActivity;
-
-
-        // ======================================
-        // F. Logika CRUD User & Approval
-        // ======================================
-        
-        async function renderUserTable() {
-            const tbody = document.getElementById('user-table');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Memuat data user (Simulasi API)...</td></tr>';
-            
-            const users = await fetchUsersFromAPI();
-
-            tbody.innerHTML = ''; 
-
-            users.forEach(user => {
-                const row = tbody.insertRow();
-                
-                let statusText = '';
-                let statusClass = '';
-                let actionButtons = '';
-
-                switch (user.status) {
-                    case 'APPROVED':
-                        statusText = 'APPROVED';
-                        statusClass = 'status-approved';
-                        actionButtons = `<button class="btn-danger" style="width: auto; margin: 2px;" onclick="rejectUser(${user.id})">Tolak</button>`;
-                        break;
-                    case 'PENDING':
-                        statusText = 'PENDING';
-                        statusClass = 'status-pending';
-                        actionButtons = `<button class="btn-warning" style="width: auto; margin: 2px;" onclick="approveUser(${user.id})">Setujui</button>`;
-                        break;
-                    case 'REJECTED':
-                        statusText = 'REJECTED';
-                        statusClass = 'status-rejected';
-                        actionButtons = `<button class="btn-warning" style="width: auto; margin: 2px;" onclick="approveUser(${user.id})">Setujui</button>`;
-                        break;
-                    default:
-                        statusText = 'UNKNOWN';
-                        statusClass = '';
-                        break;
+            for (const name in leagueData) {
+                if (leagueData[name].length > 0) {
+                    outputHtmlContent += `
+                        <div class="match-block">
+                          <h3 class="league-title">${name}</h3>
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Tanggal & Waktu</th>
+                                <th>Pertandingan</th>
+                                <th>Skor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    leagueData[name].forEach(match => {
+                        outputHtmlContent += `
+                            <tr>
+                              <td>${match[0]}</td>
+                              <td>${match[1]}</td>
+                              <td>${match[2]}</td>
+                            </tr>
+                        `;
+                    });
+                    outputHtmlContent += `</tbody></table></div>`;
                 }
-                
-                // Tambahkan tombol Edit dan Hapus (Hanya jika user tidak mencoba menghapus dirinya sendiri)
-                if (user.username !== currentUsername) {
-                   actionButtons += `<button class="btn-primary" style="width: auto; background-color: orange; margin: 2px;" onclick="editUser(${user.id})">Edit</button>
-                                     <button class="btn-danger" style="width: auto; margin: 2px;" onclick="deleteUser(${user.id})">Hapus</button>`;
-                } else {
-                   actionButtons += `(Akun Anda)`;
-                }
-
-
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td> 
-                    <td class="${statusClass}">${statusText}</td>
-                    <td>${actionButtons}</td>
-                `;
-            });
-        }
-        
-        async function updateUserStatus(id, newStatus) {
-             const result = await approveUserInAPI(id, newStatus);
-             if (result.success) {
-                 alert(`Status user ${result.user.username} berhasil diubah menjadi ${newStatus}.`);
-                 renderUserTable();
-             } else {
-                 alert('Gagal mengubah status user.');
-             }
-        }
-
-        function approveUser(id) {
-             updateUserStatus(id, 'APPROVED');
-        }
-        window.approveUser = approveUser;
-
-        function rejectUser(id) {
-             updateUserStatus(id, 'REJECTED');
-        }
-        window.rejectUser = rejectUser;
-
-        async function saveUser(event) {
-            event.preventDefault(); 
-            const id = document.getElementById('user-id').value;
-            const username = document.getElementById('user-username').value;
-            const email = document.getElementById('user-email').value;
-            const password = document.getElementById('user-password').value;
-            const role = document.getElementById('user-role').value;
-
-            const userList = await fetchUsersFromAPI();
-
-            if (id) {
-                // UPDATE USER
-                const userToUpdate = userList.find(u => u.id === parseInt(id));
-                if (userToUpdate) {
-                    userToUpdate.username = username;
-                    userToUpdate.email = email;
-                    userToUpdate.role = role;
-                    if (password) {
-                        userToUpdate.password = password;
-                    }
-                    await saveUserToAPI(userToUpdate, 'UPDATE');
-                    alert(`User ${username} berhasil diperbarui.`);
-                }
-            } else {
-                // CREATE NEW USER (VIA MASTER INPUT)
-                if (!password) {
-                     alert('Gagal: Password wajib diisi untuk user baru.');
-                     return;
-                }
-                const newUser = {
-                    username: username,
-                    email: email || 'default@email.com', 
-                    password: password,
-                    role: role, 
-                    status: 'APPROVED' 
-                };
-                await saveUserToAPI(newUser, 'CREATE');
-                alert(`User ${username} berhasil ditambahkan.`);
             }
 
-            resetUserForm();
-            renderUserTable();
+            document.getElementById('output').innerHTML = outputHtmlContent;
+            document.getElementById('htmlOutput').value = outputHtmlContent;
         }
 
-        function editUser(id) {
-            const user = globalState.users.find(u => u.id === id); // Ambil dari globalState untuk edit
-            if (user) {
-                document.getElementById('user-id').value = user.id;
-                document.getElementById('user-username').value = user.username;
-                document.getElementById('user-email').value = user.email;
-                document.getElementById('user-role').value = user.role;
-                document.getElementById('user-password').value = ''; 
-                document.getElementById('submit-user-btn').textContent = 'Simpan Perubahan';
-                document.getElementById('cancel-edit-btn').style.display = 'inline-block';
-                document.getElementById('user-form').scrollIntoView({ behavior: 'smooth' });
-            }
+        function copyHTML() {
+            const html = document.getElementById('htmlOutput');
+            html.select();
+            document.execCommand('copy');
+            alert('Semua HTML berhasil disalin!');
         }
-        
-        async function deleteUser(id) {
-            const userList = await fetchUsersFromAPI();
-            const user = userList.find(u => u.id === id);
-            
-            if (!user) return;
-
-            if (confirm(`Apakah Anda yakin ingin menghapus user ${user.username}?`)) {
-                if (user.role === 'MASTER' && userList.filter(u => u.role === 'MASTER').length <= 1) {
-                    alert("Gagal: Harus ada minimal satu user MASTER.");
-                    return;
-                }
-                
-                await saveUserToAPI(user, 'DELETE');
-                alert('User berhasil dihapus.');
-                renderUserTable();
-            }
-        }
-
-        function resetUserForm() {
-            document.getElementById('user-id').value = '';
-            document.getElementById('user-username').value = '';
-            document.getElementById('user-email').value = '';
-            document.getElementById('user-password').value = '';
-            document.getElementById('user-role').value = 'CS';
-            document.getElementById('submit-user-btn').textContent = 'Tambah User';
-            document.getElementById('cancel-edit-btn').style.display = 'none';
-        }
-
-        window.renderUserTable = renderUserTable;
-        window.editUser = editUser;
-        window.deleteUser = deleteUser;
-        window.resetUserForm = resetUserForm;
-
-
-        // ======================================
-        // G. Logika Login dan Register
-        // ======================================
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            const users = await fetchUsersFromAPI(); // Ambil data terbaru dari simulasi server
-
-            const user = users.find(u => u.username === username && u.password === password);
-
-            if (!user) {
-                alert('Login gagal! Username atau Password salah.');
-                return;
-            }
-            
-            if (user.status === 'PENDING') {
-                alert('Login ditolak! Akun Anda masih berstatus PENDING (Menunggu Persetujuan Master).');
-                return;
-            }
-            if (user.status === 'REJECTED') {
-                 alert('Login ditolak! Akun Anda telah ditolak oleh Master.');
-                 return;
-            }
-            
-            currentUsername = user.username;
-            currentUserRole = user.role;
-            
-            // Simpan sesi ke Local Storage (Ini tetap per-perangkat, wajar)
-            localStorage.setItem('app_username', currentUsername);
-            localStorage.setItem('app_role', currentUserRole);
-            
-            logActivity(`${currentUsername} berhasil LOGIN.`, 'AUTH');
-            alert(`Login berhasil! Selamat datang, ${currentUsername} (${currentUserRole}).`);
-            showView('dashboard-view');
-            
-            let defaultContentId;
-            let defaultMenuElement;
-
-            if (user.role === 'KAPTEN') {
-                defaultContentId = 'cek-to-crm';
-                defaultMenuElement = document.getElementById('menu-cek-to-crm');
-            } else {
-                defaultContentId = 'cek-ip';
-                defaultMenuElement = document.getElementById('menu-cek-ip');
-            }
-            
-            switchDashboardContent(defaultContentId, defaultMenuElement);
-        }
-
-        async function handleRegister(event) {
-            event.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            const password = document.getElementById('reg-password').value; 
-
-            const users = await fetchUsersFromAPI();
-
-            if (users.find(u => u.username === username)) {
-                alert('Pendaftaran gagal. Username sudah digunakan.');
-                return;
-            }
-
-            const newUser = {
-                username: username,
-                email: 'registered_without_email@default.com', 
-                password: password,
-                role: 'CS', 
-                status: 'PENDING' 
-            };
-
-            await saveUserToAPI(newUser, 'CREATE'); 
-
-            alert(`Pendaftaran berhasil! Akun ${username} berhasil dibuat. Status: MENUNGGU ACC Master...`);
-            document.getElementById('register-form').reset();
-            showView('login-view');
-        }
-
-        // ======================================
-        // H. Inisialisasi Event Listener
-        // ======================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Pastikan globalState diinisialisasi
-            saveGlobalState(); 
-            
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
-            document.getElementById('register-form').addEventListener('submit', handleRegister);
-            document.getElementById('user-form').addEventListener('submit', saveUser);
-            
-            window.resetInput = function() {
-                document.getElementById('logInput').value = '';
-                document.getElementById('results').innerHTML = '<p>Tempelkan data Anda dan tekan "Klik Disini".</p>';
-            };
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'F5' && document.getElementById('dashboard-view').style.display === 'flex') {
-                    e.preventDefault();
-                    window.resetInput();
-                }
-            });
-            
-            // Cek sesi login saat startup
-            const storedUsername = localStorage.getItem('app_username');
-            const storedRole = localStorage.getItem('app_role');
-
-            if (storedUsername && storedRole) {
-                currentUsername = storedUsername;
-                currentUserRole = storedRole;
-                
-                let defaultContentId;
-                let defaultMenuElement;
-                
-                if (currentUserRole === 'KAPTEN') {
-                    defaultContentId = 'cek-to-crm';
-                    defaultMenuElement = document.getElementById('menu-cek-to-crm');
-                } else {
-                    defaultContentId = 'cek-ip';
-                    defaultMenuElement = document.getElementById('menu-cek-ip');
-                }
-
-                showView('dashboard-view');
-                switchDashboardContent(defaultContentId, defaultMenuElement);
-
-            } else {
-                showView('login-view'); 
-            }
-        });
-        
     </script>
-
 </body>
 </html>
